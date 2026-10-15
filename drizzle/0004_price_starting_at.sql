@@ -1,0 +1,1 @@
+ALTER TABLE "listings" ADD COLUMN "price_starting_at" boolean DEFAULT false NOT NULL;

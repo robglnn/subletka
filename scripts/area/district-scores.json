@@ -1,0 +1,737 @@
+{
+ "version": "2026-10-15",
+ "weights": {
+  "connected": 20,
+  "quiet": 15,
+  "green": 15,
+  "everyday": 12,
+  "cafes_work": 12,
+  "active": 12,
+  "culture": 8,
+  "low_booze": 6
+ },
+ "badgeAt": 75,
+ "districts": [
+  {
+   "city": "warszawa",
+   "name": "Śródmieście",
+   "osm": 2534036,
+   "score": 77,
+   "inputs": {
+    "cafes": 39,
+    "food": 101,
+    "groceries": 31,
+    "fitness": 22,
+    "bike": 7.26,
+    "green": 0.23,
+    "quiet": -0.2,
+    "transit": 27.6,
+    "central": -1.52,
+    "culture": 91,
+    "work": 7,
+    "low_booze": -0.09
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Praga-Północ",
+   "osm": 2553341,
+   "score": 71,
+   "inputs": {
+    "cafes": 14,
+    "food": 32,
+    "groceries": 23,
+    "fitness": 9,
+    "bike": 4.93,
+    "green": 0.18,
+    "quiet": -0.11,
+    "transit": 32.6,
+    "central": -3.77,
+    "culture": 36,
+    "work": 2,
+    "low_booze": -0.2
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Wola",
+   "osm": 2531982,
+   "score": 68,
+   "inputs": {
+    "cafes": 8,
+    "food": 20,
+    "groceries": 25,
+    "fitness": 23,
+    "bike": 6.46,
+    "green": 0.17,
+    "quiet": -0.16,
+    "transit": 30.3,
+    "central": -2.89,
+    "culture": 13,
+    "work": 2,
+    "low_booze": -0.33
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Żoliborz",
+   "osm": 2531983,
+   "score": 67,
+   "inputs": {
+    "cafes": 10,
+    "food": 18,
+    "groceries": 20,
+    "fitness": 17,
+    "bike": 7.72,
+    "green": 0.27,
+    "quiet": -0.21,
+    "transit": 26.7,
+    "central": -4.56,
+    "culture": 20,
+    "work": 0,
+    "low_booze": -0.25
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Bielany",
+   "osm": 2531981,
+   "score": 58,
+   "inputs": {
+    "cafes": 3,
+    "food": 9,
+    "groceries": 16,
+    "fitness": 6,
+    "bike": 6.43,
+    "green": 0.24,
+    "quiet": -0.09,
+    "transit": 18.1,
+    "central": -6.95,
+    "culture": 9,
+    "work": 0,
+    "low_booze": -0.23
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Mokotów",
+   "osm": 2536106,
+   "score": 58,
+   "inputs": {
+    "cafes": 6,
+    "food": 16,
+    "groceries": 18,
+    "fitness": 12,
+    "bike": 5.11,
+    "green": 0.2,
+    "quiet": -0.19,
+    "transit": 18.2,
+    "central": -4.69,
+    "culture": 12,
+    "work": 2,
+    "low_booze": -0.27
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Ursynów",
+   "osm": 2536107,
+   "score": 57,
+   "inputs": {
+    "cafes": 4,
+    "food": 12,
+    "groceries": 23,
+    "fitness": 17,
+    "bike": 7.12,
+    "green": 0.24,
+    "quiet": -0.12,
+    "transit": 12,
+    "central": -9.72,
+    "culture": 10,
+    "work": 0,
+    "low_booze": -0.15
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Praga-Południe",
+   "osm": 2544288,
+   "score": 54,
+   "inputs": {
+    "cafes": 6,
+    "food": 21,
+    "groceries": 23,
+    "fitness": 12,
+    "bike": 4.44,
+    "green": 0.17,
+    "quiet": -0.17,
+    "transit": 16.4,
+    "central": -5.46,
+    "culture": 12,
+    "work": 2,
+    "low_booze": -0.43
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Ochota",
+   "osm": 2534033,
+   "score": 53,
+   "inputs": {
+    "cafes": 5,
+    "food": 18,
+    "groceries": 22,
+    "fitness": 17,
+    "bike": 4.57,
+    "green": 0.16,
+    "quiet": -0.27,
+    "transit": 26.6,
+    "central": -3.47,
+    "culture": 18,
+    "work": 0,
+    "low_booze": -0.18
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Wilanów",
+   "osm": 2536108,
+   "score": 50,
+   "inputs": {
+    "cafes": 2,
+    "food": 12,
+    "groceries": 9,
+    "fitness": 9,
+    "bike": 7.42,
+    "green": 0.21,
+    "quiet": -0.05,
+    "transit": 10.5,
+    "central": -9.14,
+    "culture": 6,
+    "work": 0,
+    "low_booze": -0.26
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Bemowo",
+   "osm": 2531595,
+   "score": 49,
+   "inputs": {
+    "cafes": 2,
+    "food": 9,
+    "groceries": 14,
+    "fitness": 5,
+    "bike": 4.31,
+    "green": 0.25,
+    "quiet": -0.12,
+    "transit": 15.3,
+    "central": -6.7,
+    "culture": 6,
+    "work": 0,
+    "low_booze": -0.31
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Targówek",
+   "osm": 2556630,
+   "score": 48,
+   "inputs": {
+    "cafes": 1,
+    "food": 9,
+    "groceries": 12,
+    "fitness": 4,
+    "bike": 4.78,
+    "green": 0.23,
+    "quiet": -0.11,
+    "transit": 15,
+    "central": -6.5,
+    "culture": 11,
+    "work": 0,
+    "low_booze": -0.61
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Ursus",
+   "osm": 2534034,
+   "score": 47,
+   "inputs": {
+    "cafes": 4,
+    "food": 14,
+    "groceries": 19,
+    "fitness": 9,
+    "bike": 3.77,
+    "green": 0.19,
+    "quiet": -0.07,
+    "transit": 9.9,
+    "central": -9.08,
+    "culture": 6,
+    "work": 1,
+    "low_booze": -0.42
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Białołęka",
+   "osm": 2556629,
+   "score": 42,
+   "inputs": {
+    "cafes": 1,
+    "food": 5,
+    "groceries": 7,
+    "fitness": 1,
+    "bike": 3.58,
+    "green": 0.28,
+    "quiet": -0.05,
+    "transit": 8.1,
+    "central": -10.51,
+    "culture": 3,
+    "work": 0,
+    "low_booze": -0.15
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Wesoła",
+   "osm": 2579783,
+   "score": 30,
+   "inputs": {
+    "cafes": 1,
+    "food": 5,
+    "groceries": 4,
+    "fitness": 1,
+    "bike": 2.41,
+    "green": 0.18,
+    "quiet": -0.06,
+    "transit": 4.2,
+    "central": -15.49,
+    "culture": 1,
+    "work": 0,
+    "low_booze": -0.1
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Rembertów",
+   "osm": 2579781,
+   "score": 29,
+   "inputs": {
+    "cafes": 0,
+    "food": 3,
+    "groceries": 3,
+    "fitness": 3,
+    "bike": 0.72,
+    "green": 0.25,
+    "quiet": -0.14,
+    "transit": 5.4,
+    "central": -10.99,
+    "culture": 3,
+    "work": 0,
+    "low_booze": -0.17
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Włochy",
+   "osm": 2534035,
+   "score": 25,
+   "inputs": {
+    "cafes": 3,
+    "food": 8,
+    "groceries": 8,
+    "fitness": 7,
+    "bike": 2.14,
+    "green": 0.14,
+    "quiet": -0.29,
+    "transit": 8.9,
+    "central": -6.37,
+    "culture": 3,
+    "work": 0,
+    "low_booze": -0.17
+   }
+  },
+  {
+   "city": "warszawa",
+   "name": "Wawer",
+   "osm": 2579782,
+   "score": 22,
+   "inputs": {
+    "cafes": 0,
+    "food": 3,
+    "groceries": 3,
+    "fitness": 2,
+    "bike": 1.6,
+    "green": 0.18,
+    "quiet": -0.17,
+    "transit": 4.8,
+    "central": -10.27,
+    "culture": 3,
+    "work": 0,
+    "low_booze": -0.11
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Zwierzyniec",
+   "osm": 2642242,
+   "score": 75,
+   "inputs": {
+    "cafes": 16,
+    "food": 16,
+    "groceries": 18,
+    "fitness": 7,
+    "bike": 6.97,
+    "green": 0.27,
+    "quiet": -0.12,
+    "transit": 20.5,
+    "central": -1.61,
+    "culture": 34,
+    "work": 0,
+    "low_booze": -0.09
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Krowodrza",
+   "osm": 2649407,
+   "score": 75,
+   "inputs": {
+    "cafes": 20,
+    "food": 32,
+    "groceries": 33,
+    "fitness": 14,
+    "bike": 4.48,
+    "green": 0.3,
+    "quiet": -0.19,
+    "transit": 13.4,
+    "central": -1.8,
+    "culture": 23,
+    "work": 3,
+    "low_booze": -0.12
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Stare Miasto",
+   "osm": 2642241,
+   "score": 71,
+   "inputs": {
+    "cafes": 81,
+    "food": 219,
+    "groceries": 44,
+    "fitness": 14,
+    "bike": 3.97,
+    "green": 0.17,
+    "quiet": -0.18,
+    "transit": 29.9,
+    "central": -0.88,
+    "culture": 113,
+    "work": 12,
+    "low_booze": -0.09
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Grzegórzki",
+   "osm": 2648849,
+   "score": 59,
+   "inputs": {
+    "cafes": 10,
+    "food": 18,
+    "groceries": 21,
+    "fitness": 17,
+    "bike": 6.34,
+    "green": 0.12,
+    "quiet": -0.25,
+    "transit": 18,
+    "central": -1.95,
+    "culture": 19,
+    "work": 4,
+    "low_booze": -0.17
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Czyżyny",
+   "osm": 2648668,
+   "score": 57,
+   "inputs": {
+    "cafes": 2,
+    "food": 11,
+    "groceries": 19,
+    "fitness": 12,
+    "bike": 6.35,
+    "green": 0.24,
+    "quiet": -0.11,
+    "transit": 10.3,
+    "central": -5.34,
+    "culture": 9,
+    "work": 1,
+    "low_booze": -0.31
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Podgórze",
+   "osm": 2398485,
+   "score": 54,
+   "inputs": {
+    "cafes": 4,
+    "food": 8,
+    "groceries": 11,
+    "fitness": 18,
+    "bike": 5.03,
+    "green": 0.18,
+    "quiet": -0.19,
+    "transit": 13.9,
+    "central": -2.96,
+    "culture": 10,
+    "work": 1,
+    "low_booze": -0.07
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Bronowice",
+   "osm": 2650430,
+   "score": 54,
+   "inputs": {
+    "cafes": 1,
+    "food": 9,
+    "groceries": 17,
+    "fitness": 8,
+    "bike": 4.16,
+    "green": 0.36,
+    "quiet": -0.12,
+    "transit": 11.6,
+    "central": -4.01,
+    "culture": 4,
+    "work": 0,
+    "low_booze": -0.26
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Nowa Huta",
+   "osm": 2648045,
+   "score": 50,
+   "inputs": {
+    "cafes": 4,
+    "food": 9,
+    "groceries": 18,
+    "fitness": 4,
+    "bike": 5.15,
+    "green": 0.32,
+    "quiet": -0.25,
+    "transit": 17.1,
+    "central": -7.7,
+    "culture": 20,
+    "work": 0,
+    "low_booze": -0.45
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Dębniki",
+   "osm": 2398482,
+   "score": 48,
+   "inputs": {
+    "cafes": 3,
+    "food": 11,
+    "groceries": 11,
+    "fitness": 8,
+    "bike": 4,
+    "green": 0.23,
+    "quiet": -0.14,
+    "transit": 11,
+    "central": -4.79,
+    "culture": 7,
+    "work": 0,
+    "low_booze": -0.19
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Podgórze Duchackie",
+   "osm": 2645869,
+   "score": 47,
+   "inputs": {
+    "cafes": 1,
+    "food": 7,
+    "groceries": 16,
+    "fitness": 4,
+    "bike": 2.79,
+    "green": 0.27,
+    "quiet": -0.06,
+    "transit": 10.5,
+    "central": -5.82,
+    "culture": 5,
+    "work": 0,
+    "low_booze": -0.62
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Mistrzejowice",
+   "osm": 2650961,
+   "score": 45,
+   "inputs": {
+    "cafes": 0,
+    "food": 7,
+    "groceries": 27,
+    "fitness": 1,
+    "bike": 3.9,
+    "green": 0.2,
+    "quiet": -0.01,
+    "transit": 16,
+    "central": -6.55,
+    "culture": 5,
+    "work": 0,
+    "low_booze": -0.78
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Bieńczyce",
+   "osm": 2651178,
+   "score": 45,
+   "inputs": {
+    "cafes": 2,
+    "food": 6,
+    "groceries": 33,
+    "fitness": 7,
+    "bike": 5.99,
+    "green": 0.26,
+    "quiet": -0.28,
+    "transit": 14.7,
+    "central": -6.66,
+    "culture": 12,
+    "work": 0,
+    "low_booze": -0.63
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Łagiewniki-Borek Fałęcki",
+   "osm": 2398480,
+   "score": 44,
+   "inputs": {
+    "cafes": 2,
+    "food": 4,
+    "groceries": 9,
+    "fitness": 7,
+    "bike": 4.21,
+    "green": 0.25,
+    "quiet": -0.25,
+    "transit": 17.1,
+    "central": -4.52,
+    "culture": 6,
+    "work": 0,
+    "low_booze": -0.22
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Swoszowice",
+   "osm": 2398484,
+   "score": 39,
+   "inputs": {
+    "cafes": 0,
+    "food": 2,
+    "groceries": 2,
+    "fitness": 0,
+    "bike": 0.2,
+    "green": 0.37,
+    "quiet": -0.06,
+    "transit": 3.8,
+    "central": -7.79,
+    "culture": 2,
+    "work": 0,
+    "low_booze": -0.1
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Prądnik Biały",
+   "osm": 2650662,
+   "score": 38,
+   "inputs": {
+    "cafes": 2,
+    "food": 5,
+    "groceries": 13,
+    "fitness": 5,
+    "bike": 4.1,
+    "green": 0.21,
+    "quiet": -0.2,
+    "transit": 12.5,
+    "central": -4.02,
+    "culture": 3,
+    "work": 0,
+    "low_booze": -0.25
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Bieżanów-Prokocim",
+   "osm": 2647604,
+   "score": 37,
+   "inputs": {
+    "cafes": 2,
+    "food": 5,
+    "groceries": 20,
+    "fitness": 4,
+    "bike": 2.15,
+    "green": 0.32,
+    "quiet": -0.2,
+    "transit": 10.6,
+    "central": -7.22,
+    "culture": 3,
+    "work": 0,
+    "low_booze": -0.54
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Prądnik Czerwony",
+   "osm": 2650730,
+   "score": 34,
+   "inputs": {
+    "cafes": 2,
+    "food": 6,
+    "groceries": 16,
+    "fitness": 5,
+    "bike": 5.66,
+    "green": 0.14,
+    "quiet": -0.25,
+    "transit": 13,
+    "central": -3.52,
+    "culture": 7,
+    "work": 0,
+    "low_booze": -0.37
+   }
+  },
+  {
+   "city": "krakow",
+   "name": "Wzgórza Krzesławickie",
+   "osm": 2648584,
+   "score": 22,
+   "inputs": {
+    "cafes": 0,
+    "food": 1,
+    "groceries": 3,
+    "fitness": 3,
+    "bike": 0.13,
+    "green": 0.17,
+    "quiet": -0.11,
+    "transit": 5.3,
+    "central": -8.65,
+    "culture": 1,
+    "work": 0,
+    "low_booze": -0.38
+   }
+  }
+ ],
+ "pointBadgeAt": 80
+}

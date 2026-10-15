@@ -1,0 +1,294 @@
+{
+ "warszawa": [
+  {
+   "name": "Bemowo",
+   "slug": "bemowo",
+   "center": [
+    52.2462,
+    20.9045
+   ]
+  },
+  {
+   "name": "Białołęka",
+   "slug": "bialoleka",
+   "center": [
+    52.3312,
+    21.0042
+   ]
+  },
+  {
+   "name": "Bielany",
+   "slug": "bielany",
+   "center": [
+    52.2932,
+    20.925
+   ]
+  },
+  {
+   "name": "Mokotów",
+   "slug": "mokotow",
+   "center": [
+    52.1937,
+    21.0424
+   ]
+  },
+  {
+   "name": "Ochota",
+   "slug": "ochota",
+   "center": [
+    52.21,
+    20.9749
+   ]
+  },
+  {
+   "name": "Praga-Południe",
+   "slug": "praga-poludnie",
+   "center": [
+    52.2389,
+    21.0834
+   ]
+  },
+  {
+   "name": "Praga-Północ",
+   "slug": "praga-polnoc",
+   "center": [
+    52.2643,
+    21.0277
+   ]
+  },
+  {
+   "name": "Rembertów",
+   "slug": "rembertow",
+   "center": [
+    52.2624,
+    21.1509
+   ]
+  },
+  {
+   "name": "Śródmieście",
+   "slug": "srodmiescie",
+   "center": [
+    52.2335,
+    21.0189
+   ]
+  },
+  {
+   "name": "Targówek",
+   "slug": "targowek",
+   "center": [
+    52.2823,
+    21.0629
+   ]
+  },
+  {
+   "name": "Ursus",
+   "slug": "ursus",
+   "center": [
+    52.1955,
+    20.881
+   ]
+  },
+  {
+   "name": "Ursynów",
+   "slug": "ursynow",
+   "center": [
+    52.134,
+    21.0336
+   ]
+  },
+  {
+   "name": "Wawer",
+   "slug": "wawer",
+   "center": [
+    52.1937,
+    21.1773
+   ]
+  },
+  {
+   "name": "Wesoła",
+   "slug": "wesola",
+   "center": [
+    52.2317,
+    21.2242
+   ]
+  },
+  {
+   "name": "Wilanów",
+   "slug": "wilanow",
+   "center": [
+    52.1521,
+    21.104
+   ]
+  },
+  {
+   "name": "Włochy",
+   "slug": "wlochy",
+   "center": [
+    52.1811,
+    20.9485
+   ]
+  },
+  {
+   "name": "Wola",
+   "slug": "wola",
+   "center": [
+    52.2353,
+    20.9573
+   ]
+  },
+  {
+   "name": "Żoliborz",
+   "slug": "zoliborz",
+   "center": [
+    52.2697,
+    20.9808
+   ]
+  }
+ ],
+ "krakow": [
+  {
+   "name": "Bieńczyce",
+   "slug": "bienczyce",
+   "center": [
+    50.087,
+    20.0273
+   ]
+  },
+  {
+   "name": "Bieżanów-Prokocim",
+   "slug": "biezanow-prokocim",
+   "center": [
+    50.0183,
+    20.0273
+   ]
+  },
+  {
+   "name": "Bronowice",
+   "slug": "bronowice",
+   "center": [
+    50.0816,
+    19.8734
+   ]
+  },
+  {
+   "name": "Czyżyny",
+   "slug": "czyzyny",
+   "center": [
+    50.0653,
+    20.0105
+   ]
+  },
+  {
+   "name": "Dębniki",
+   "slug": "debniki",
+   "center": [
+    50.0165,
+    19.865
+   ]
+  },
+  {
+   "name": "Grzegórzki",
+   "slug": "grzegorzki",
+   "center": [
+    50.0635,
+    19.9658
+   ]
+  },
+  {
+   "name": "Krowodrza",
+   "slug": "krowodrza",
+   "center": [
+    50.0726,
+    19.9182
+   ]
+  },
+  {
+   "name": "Łagiewniki-Borek Fałęcki",
+   "slug": "lagiewniki-borek-falecki",
+   "center": [
+    50.0165,
+    19.9294
+   ]
+  },
+  {
+   "name": "Mistrzejowice",
+   "slug": "mistrzejowice",
+   "center": [
+    50.0979,
+    20.0077
+   ]
+  },
+  {
+   "name": "Nowa Huta",
+   "slug": "nowa-huta",
+   "center": [
+    50.0726,
+    20.1309
+   ]
+  },
+  {
+   "name": "Podgórze",
+   "slug": "podgorze",
+   "center": [
+    50.04,
+    20.0077
+   ]
+  },
+  {
+   "name": "Podgórze Duchackie",
+   "slug": "podgorze-duchackie",
+   "center": [
+    50.0129,
+    19.9658
+   ]
+  },
+  {
+   "name": "Prądnik Biały",
+   "slug": "pradnik-bialy",
+   "center": [
+    50.0997,
+    19.9182
+   ]
+  },
+  {
+   "name": "Prądnik Czerwony",
+   "slug": "pradnik-czerwony",
+   "center": [
+    50.0852,
+    19.9741
+   ]
+  },
+  {
+   "name": "Stare Miasto",
+   "slug": "stare-miasto",
+   "center": [
+    50.0635,
+    19.9406
+   ]
+  },
+  {
+   "name": "Swoszowice",
+   "slug": "swoszowice",
+   "center": [
+    49.9894,
+    19.949
+   ]
+  },
+  {
+   "name": "Wzgórza Krzesławickie",
+   "slug": "wzgorza-krzeslawickie",
+   "center": [
+    50.1015,
+    20.0917
+   ]
+  },
+  {
+   "name": "Zwierzyniec",
+   "slug": "zwierzyniec",
+   "center": [
+    50.0581,
+    19.8538
+   ]
+  }
+ ]
+}
