@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import { findForbidden } from "./forbidden-copy";
-import { cityDescription, pageMetadata } from "./seo";
+import { cityRent } from "./rent-stats";
+import { cityDescription, pageMetadata, rentDescription } from "./seo";
 
 test("city descriptions carry the live count and the median rent in the language's currency", () => {
   const warsaw = { total: 383, medianPln: 5383 };
@@ -24,4 +25,14 @@ test("the city description reaches the page, Open Graph and Twitter metadata and
   assert.equal(meta.openGraph?.description, meta.description);
   assert.equal(meta.twitter?.description, meta.description);
   assert.deepEqual(findForbidden(description), []);
+});
+
+test("the rent page description lists the median per type and the date, and skips types without a median", () => {
+  const row = (monthlyPln: number, kind: "room" | "flat") => ({ kind, district: "Wola", monthlyPln, price: { amount: monthlyPln, currency: "PLN" as const }, outlier: false, minutes: null });
+  const rent = cityRent("warszawa", [row(2000, "room"), row(2100, "room"), row(2200, "room"), row(4000, "flat")], new Date("2026-10-16T05:00:00Z"), () => null);
+  const today = new Date("2026-10-17T12:00:00Z");
+  assert.equal(rentDescription("pl", rent, today), "Mediana miesięcznego czynszu w Warszawie: pokój 2\u00a0100 zł. Według dzielnic, stan na 16 października 2026.");
+  assert.equal(rentDescription("en", rent, today), "Median monthly rent in Warsaw: room €490. By district, as of 16 October 2026.");
+  assert.equal(rentDescription("en", cityRent("krakow", [], null, () => null), today), "Median monthly rent in Kraków. By district, as of 17 October 2026.");
+  assert.deepEqual(findForbidden(rentDescription("pl", rent, today)), []);
 });

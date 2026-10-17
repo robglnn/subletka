@@ -1,7 +1,9 @@
 import type { MetadataRoute } from "next";
 import { activeListingStamps } from "@/db/listings";
+import { siteStamps } from "@/db/rent";
 import { CITIES, DISTRICTS, LOCALES } from "@/lib/domain";
 import { siteUrl } from "@/lib/env";
+import { rentPath } from "@/lib/hubs";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const site = siteUrl();
@@ -10,11 +12,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified,
     alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, `${site}/${l}${path}`])) },
   });
-  const listings = await activeListingStamps();
+  const [listings, stamps] = await Promise.all([activeListingStamps(), siteStamps()]);
+  const hub = (path: string) => entry(path, stamps.get(path));
   return [
-    entry(""),
-    ...CITIES.map((c) => entry(`/${c}`)),
-    ...CITIES.flatMap((c) => DISTRICTS[c].map((d) => entry(`/${c}/${d.slug}`))),
+    hub(""),
+    ...CITIES.map((c) => hub(`/${c}`)),
+    ...CITIES.map((c) => hub(rentPath(c))),
+    ...CITIES.flatMap((c) => DISTRICTS[c].map((d) => hub(`/${c}/${d.slug}`))),
     entry("/post"),
     entry("/about"),
     entry("/privacy"),

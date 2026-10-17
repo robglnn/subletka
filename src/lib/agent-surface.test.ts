@@ -5,12 +5,13 @@ import { fromSearchParams, OPERATIONS, queryIssues, resolveDistrict, SearchQuery
 import { PublicListing } from "./agent-response";
 import type { Listing, Locale } from "./domain";
 import { findForbidden } from "./forbidden-copy";
-import { listingJsonLd, cityJsonLd } from "./json-ld";
+import { listingJsonLd, cityJsonLd, rentJsonLd } from "./json-ld";
 import { llmsFullTxt, llmsTxt } from "./llms-txt";
 import { handleMcp, type McpServer } from "./mcp";
 import { openApiSpec } from "./openapi";
 import type { PhotoKey } from "./photo";
 import { searchPageUrl, toPublicListing } from "./public-listing";
+import { cityRent, type RentInput } from "./rent-stats";
 
 const SITE = "https://subletka.com";
 const WRONG_CURRENCY: Record<Locale, RegExp> = { pl: /€|\bEUR\b/, en: /zł|\bPLN\b/ };
@@ -125,6 +126,52 @@ test("llms.txt hands agents ready-made district searches in both currencies and 
   assert.ok(text.includes("[Privacy](https://subletka.com/en/privacy) · [Terms](https://subletka.com/en/terms)"));
 });
 
+const rentRow = (monthlyPln: number, over: Partial<RentInput> = {}): RentInput => ({
+  kind: "room",
+  district: "Mokotów",
+  monthlyPln,
+  price: { amount: monthlyPln, currency: "PLN" },
+  outlier: false,
+  minutes: 18,
+  ...over,
+});
+const RENT_AT = new Date("2026-10-16T05:00:00Z");
+const warsawRent = cityRent("warszawa", [rentRow(2000), rentRow(2096), rentRow(2300), rentRow(4000, { kind: "flat", district: "Wola" })], RENT_AT, () => null);
+const krakowRent = cityRent("krakow", [], null, () => null);
+
+test("the rent page describes a Dataset with medians in the page language's currency, its method and the date of the last change", () => {
+  const graph = rentJsonLd(warsawRent, "en", SITE, new Date("2026-10-17T12:00:00Z"));
+  const [page, dataset] = graph["@graph"] as unknown as Record<string, unknown>[];
+  assert.equal(page["@type"], "WebPage");
+  assert.deepEqual(page.mainEntity, { "@id": `${SITE}/en/warszawa/rent#dataset` });
+  assert.equal(dataset["@type"], "Dataset");
+  assert.equal(dataset.name, "Rent in Warsaw by district");
+  assert.ok((dataset.description as string).length >= 50);
+  assert.equal(dataset.temporalCoverage, "2026-10-17");
+  assert.equal(dataset.dateModified, RENT_AT.toISOString());
+  assert.equal(dataset.isAccessibleForFree, true);
+  assert.match(dataset.measurementTechnique as string, /at least 3 listings/);
+  assert.deepEqual(dataset.variableMeasured, [
+    { "@type": "PropertyValue", name: "median monthly rent: Warsaw", value: 515, unitText: "EUR" },
+    { "@type": "PropertyValue", name: "median monthly rent: room", value: 490, unitText: "EUR" },
+    { "@type": "PropertyValue", name: "median monthly rent: Mokotów", value: 490, unitText: "EUR" },
+  ]);
+  assert.ok(!("distribution" in dataset));
+  for (const lang of ["pl", "en"] as const) assert.doesNotMatch(JSON.stringify(rentJsonLd(warsawRent, lang, SITE, new Date())), WRONG_CURRENCY[lang]);
+  const pl = rentJsonLd(warsawRent, "pl", SITE, new Date())["@graph"][1] as unknown as { variableMeasured: { value: number; unitText: string }[] };
+  assert.deepEqual(pl.variableMeasured[0], { "@type": "PropertyValue", name: "mediana miesięcznego czynszu: Warszawa", value: 2200, unitText: "PLN" });
+});
+
+test("llms.txt carries rent medians per type and the cheapest districts, in zł and €, with links to the rent pages", () => {
+  const text = llmsTxt(SITE, counts, new Date("2026-10-17T12:00:00Z"), [warsawRent, krakowRent]);
+  const section = text.slice(text.indexOf("## Rent statistics"), text.indexOf("## Website"));
+  assert.match(section, /\[Warsaw\]\(https:\/\/subletka\.com\/en\/warszawa\/rent\) · \[Kraków\]\(https:\/\/subletka\.com\/en\/krakow\/rent\)/);
+  assert.ok(section.includes("- Warsaw, as of 2026-10-16: median room 2\u00a0100 zł (€490) from 3."), section);
+  assert.ok(section.includes("  Lowest district medians: Mokotów 2\u00a0100 zł (€490)."), section);
+  assert.ok(section.includes("- Kraków, as of 2026-10-17: too few listings for medians."), section);
+  assert.doesNotMatch(llmsTxt(SITE, counts), /## Rent statistics/);
+});
+
 test("llms-full.txt lists every listing in one currency per language", () => {
   const byCity = { warszawa: [listing(), listing({ id: "native-1", district: null })], krakow: [] };
   const pl = llmsFullTxt(SITE, "pl", byCity);
@@ -138,7 +185,9 @@ test("llms-full.txt lists every listing in one currency per language", () => {
 test("agent-facing documents never name a source, the owner, or a fee", () => {
   const byCity = { warszawa: [listing()], krakow: [] };
   const docs = [
-    llmsTxt(SITE, counts),
+    llmsTxt(SITE, counts, new Date(), [warsawRent, krakowRent]),
+    JSON.stringify(rentJsonLd(warsawRent, "pl", SITE, new Date())),
+    JSON.stringify(rentJsonLd(warsawRent, "en", SITE, new Date())),
     llmsFullTxt(SITE, "pl", byCity),
     llmsFullTxt(SITE, "en", byCity),
     JSON.stringify(openApiSpec(SITE)),

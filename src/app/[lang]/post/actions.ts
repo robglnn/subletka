@@ -8,6 +8,7 @@ import { isLocale, type Locale } from "@/lib/domain";
 import { cleanPhoto } from "@/lib/clean-photo";
 import { clientIp } from "@/lib/env";
 import { MAX_PHOTO_BYTES, MAX_PHOTOS, NativeForm, PHOTO_TYPES, type FormField, type FormState } from "@/lib/native-form";
+import { notifyIndexNow } from "@/lib/notify-index";
 import { allow } from "@/lib/rate-limit";
 import { routes } from "@/lib/routes";
 import { getSession } from "@/lib/session";
@@ -50,7 +51,8 @@ export async function createListing(lang: Locale, _prev: FormState, fd: FormData
   const parsed = parseFields(fd);
   if (!parsed.ok) return fail("invalid", parsed.fields);
   const session = await getSession();
-  const { token } = await createNative(parsed.values, lang, uploads, session?.email ?? null);
+  const { id, token } = await createNative(parsed.values, lang, uploads, session?.email ?? null);
+  notifyIndexNow([id]);
   redirect(`${routes.manage(lang, token)}?new=1`);
 }
 
@@ -65,6 +67,7 @@ export async function updateListing(lang: Locale, rawAuth: ManageAuth, _prev: Fo
   const parsed = parseFields(fd);
   if (!parsed.ok) return fail("invalid", parsed.fields);
   await updateNative(row.id, parsed.values, lang, uploads.length ? uploads : null);
+  notifyIndexNow([row.publicId ?? row.id]);
   return { kind: "saved" };
 }
 
@@ -72,6 +75,9 @@ export async function setListingStatus(lang: Locale, rawAuth: ManageAuth, status
   const auth = Auth.safeParse(rawAuth);
   if (!isLocale(lang) || !auth.success || (status !== "active" && status !== "removed")) return;
   const row = await findManaged(auth.data, (await getSession())?.email ?? null);
-  if (row) await setStatus(row.id, status);
+  if (row) {
+    await setStatus(row.id, status);
+    notifyIndexNow([row.publicId ?? row.id]);
+  }
   redirect(manageHref(lang, auth.data));
 }

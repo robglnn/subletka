@@ -35,7 +35,12 @@ export function DistrictLinks({ lang, city, current }: { lang: Locale; city: Cit
   const t = getDictionary(lang);
   return (
     <nav aria-label={t.district.districts} className="flex flex-col gap-2">
-      <h2 className="text-sm font-semibold text-muted-foreground">{t.district.districts}</h2>
+      <div className="flex items-baseline justify-between gap-4">
+        <h2 className="text-sm font-semibold text-muted-foreground">{t.district.districts}</h2>
+        <Link href={routes.rent(lang, city)} className="inline-flex h-11 items-center text-sm font-semibold">
+          {t.rent.link} →
+        </Link>
+      </div>
       <ul className="flex flex-wrap gap-x-4 gap-y-0">
         {DISTRICTS[city].map((d) => (
           <li key={d.slug}>

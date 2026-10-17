@@ -4,6 +4,7 @@ export const routes = {
   home: (l: Locale) => `/${l}`,
   city: (l: Locale, c: City) => `/${l}/${c}`,
   district: (l: Locale, c: City, slug: string) => `/${l}/${c}/${slug}`,
+  rent: (l: Locale, c: City) => `/${l}/${c}/rent`,
   listing: (l: Locale, id: string) => `/${l}/l/${encodeURIComponent(id)}`,
   post: (l: Locale) => `/${l}/post`,
   about: (l: Locale) => `/${l}/about`,

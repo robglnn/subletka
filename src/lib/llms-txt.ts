@@ -1,9 +1,10 @@
 import { districtSlug, jsonSchema, OPERATIONS, searchApiPath, SearchQuery } from "@/lib/agent-query";
 import { RATE_LIMIT_NOTE } from "@/lib/agent-http";
-import { CITIES, type City, type Listing, type Locale } from "@/lib/domain";
+import { CITIES, PLACE_FILTERS, type City, type Listing, type Locale } from "@/lib/domain";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { availability, formatNumber, listingTitle, minStay, plural, priceView } from "@/lib/i18n/format";
+import { availability, formatMedian, formatNumber, listingTitle, minStay, plural, priceView } from "@/lib/i18n/format";
 import { listingUrl } from "@/lib/public-listing";
+import type { CityRent } from "@/lib/rent-stats";
 import { routes } from "@/lib/routes";
 import { SUPPORT_EMAIL } from "@/lib/support";
 
@@ -36,7 +37,33 @@ const districtLines = (site: string, c: CityCounts) =>
       return `- ${d.name} (${d.activeListings}): [€](${url("en")}) · [zł](${url("pl")})`;
     });
 
-export const llmsTxt = (site: string, cities: CityCounts[], now = new Date()) => {
+const both = (pln: number) => `${formatMedian("pl", pln)} (${formatMedian("en", pln)})`;
+
+const rentLines = (site: string, rents: CityRent[], now: Date) => {
+  if (!rents.length) return [];
+  const en = getDictionary("en");
+  return [
+    "## Rent statistics",
+    "",
+    `${en.rent.method} Prices in zł with € in brackets. Full tables by district: ${CITIES.map((c) => `[${en.cities[c]}](${site}${routes.rent("en", c)})`).join(" · ")}.`,
+    "",
+    ...rents.flatMap((r) => {
+      const kinds = PLACE_FILTERS.flatMap((k) => {
+        const g = r.kinds[k];
+        return g.medianPln === null ? [] : [`${en.filters.types[k]} ${both(g.medianPln)} from ${g.listings}`];
+      });
+      const cheapest = r.districts.filter((d) => d.medianPln !== null).slice(0, 3);
+      const asOf = (r.updatedAt ?? now).toISOString().slice(0, 10);
+      return [
+        `- ${en.cities[r.city]}, as of ${asOf}: ${kinds.length ? `median ${kinds.join(" · ")}` : "too few listings for medians"}.`,
+        ...(cheapest.length ? [`  Lowest district medians: ${cheapest.map((d) => `${d.name} ${both(d.medianPln as number)}`).join(" · ")}.`] : []),
+      ];
+    }),
+    "",
+  ];
+};
+
+export const llmsTxt = (site: string, cities: CityCounts[], now = new Date(), rents: CityRent[] = []) => {
   const en = getDictionary("en");
   const total = cities.reduce((n, c) => n + c.activeListings, 0);
   const moveIn = nextMonthStart(now);
@@ -78,6 +105,7 @@ export const llmsTxt = (site: string, cities: CityCounts[], now = new Date()) =>
     ...parameterLines(),
     "",
     ...cities.flatMap((c) => [`## Searches in ${en.cities[c.city]}`, "", ...districtLines(site, c), ""]),
+    ...rentLines(site, rents, now),
     "## Website",
     "",
     ...CITIES.map((c) => `- [${en.cities[c]}](${site}${routes.city("en", c)}) · [${getDictionary("pl").cities[c]}](${site}${routes.city("pl", c)})`),

@@ -1,10 +1,12 @@
 import "server-only";
 import { cityListings, cityOverview } from "@/db/agent-search";
+import { rentByCity } from "@/db/rent";
 import { CITIES, type City, type Locale } from "@/lib/domain";
 import { llmsFullTxt, llmsTxt } from "@/lib/llms-txt";
 
 export async function renderLlmsTxt(site: string) {
-  return llmsTxt(site, await Promise.all(CITIES.map((c) => cityOverview(c, "en"))));
+  const [counts, rents] = await Promise.all([Promise.all(CITIES.map((c) => cityOverview(c, "en"))), Promise.all(CITIES.map(rentByCity))]);
+  return llmsTxt(site, counts, new Date(), rents);
 }
 
 export async function renderLlmsFullTxt(site: string, lang: Locale) {

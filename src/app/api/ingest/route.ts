@@ -2,8 +2,9 @@ import { applyIngest } from "@/db/ingest";
 import { purgeSupportMessages } from "@/db/support";
 import { bearerMatches } from "@/lib/bearer";
 import { indexNowConfig } from "@/lib/env";
-import { listingUrls, pingIndexNow } from "@/lib/indexnow";
+import { pingIndexNow } from "@/lib/indexnow";
 import { parseIngest } from "@/lib/ingest-contract";
+import { changedUrls } from "@/lib/notify-index";
 
 export async function POST(request: Request) {
   if (!bearerMatches(request.headers.get("authorization"), process.env.INGEST_TOKEN)) {
@@ -15,7 +16,9 @@ export async function POST(request: Request) {
   const purgedSupportMessages = await purgeSupportMessages();
   const config = indexNowConfig();
   const indexnow = config
-    ? await pingIndexNow(config, listingUrls(config.site, [...changes.added, ...changes.changed, ...changes.removed])).catch(() => null)
+    ? await changedUrls(config.site, [...changes.added, ...changes.changed, ...changes.removed])
+        .then((urls) => pingIndexNow(config, urls))
+        .catch(() => null)
     : null;
   console.log(
     `ingest received=${batch.received} upserted=${upserted} removed=${removed} rejected=${batch.rejected.length} indexnow_submitted=${indexnow?.submitted ?? 0} indexnow_failed=${indexnow?.failed ?? 0}`,

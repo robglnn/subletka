@@ -77,6 +77,10 @@ const validate = (vocab, graph, page) => {
       }
     });
   }
+  for (const set of graph["@graph"].filter((n) => n["@type"] === "Dataset")) {
+    const length = set.description?.length ?? 0;
+    if (!set.name || length < 50 || length > 5000) errors.push(`${page} Dataset needs a name and a 50 to 5000 character description`);
+  }
   return errors;
 };
 
@@ -88,7 +92,7 @@ const pages = async () => {
   const listings = [...sitemap.matchAll(/<loc>[^<]*?(\/[a-z]{2}\/l\/[^<]+)<\/loc>/g)].map((m) => m[1]);
   const step = Math.max(1, Math.floor(listings.length / SAMPLE));
   const sample = listings.filter((_, i) => i % step === 0).slice(0, SAMPLE);
-  return ["pl", "en"].flatMap((lang) => [`/${lang}/warszawa`, `/${lang}/krakow`, `/${lang}/warszawa/mokotow`, `/${lang}/krakow/stare-miasto`, `/${lang}/krakow/swoszowice`, ...sample.map((p) => p.replace(/^\/[a-z]{2}/, `/${lang}`))]);
+  return ["pl", "en"].flatMap((lang) => [`/${lang}/warszawa`, `/${lang}/krakow`, `/${lang}/warszawa/mokotow`, `/${lang}/krakow/stare-miasto`, `/${lang}/krakow/swoszowice`, `/${lang}/warszawa/rent`, `/${lang}/krakow/rent`, ...sample.map((p) => p.replace(/^\/[a-z]{2}/, `/${lang}`))]);
 };
 
 const vocab = await loadVocab();
