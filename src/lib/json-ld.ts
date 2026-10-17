@@ -1,10 +1,11 @@
-import { LOCALE_TAG, type City, type District, type Listing, type Locale, type PlaceType, type PricePeriod } from "@/lib/domain";
+import { LOCALE_TAG, PLACE_FILTERS, type City, type District, type Listing, type Locale, type PlaceType, type PricePeriod } from "@/lib/domain";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { fill } from "@/lib/i18n/fill";
 import { availability, listingTitle, priceView } from "@/lib/i18n/format";
-import { displayMoney } from "@/lib/money";
+import { displayMoney, roundMoney } from "@/lib/money";
 import { photoSrc } from "@/lib/photo";
 import { listingUrl } from "@/lib/public-listing";
+import type { CityRent, RentGroup } from "@/lib/rent-stats";
 import { routes } from "@/lib/routes";
 import { SUPPORT_EMAIL } from "@/lib/support";
 
@@ -170,6 +171,63 @@ export const cityJsonLd = (city: City, lang: Locale, site: string, listings: Lis
       breadcrumb(`${url}#breadcrumb`, [
         ["Subletka", `${site}${routes.home(lang)}`],
         [t.cities[city], url],
+      ]),
+      ...publisher(site),
+    ],
+  };
+};
+
+export const rentJsonLd = (rent: CityRent, lang: Locale, site: string, today: Date): JsonLdGraph => {
+  const t = getDictionary(lang);
+  const { city } = rent;
+  const cityUrl = `${site}${routes.city(lang, city)}`;
+  const url = `${site}${routes.rent(lang, city)}`;
+  const day = (d: Date) => d.toISOString().slice(0, 10);
+  const measured = (name: string, g: RentGroup) => {
+    if (g.medianPln === null) return [];
+    const m = roundMoney(displayMoney({ amount: g.medianPln, currency: "PLN" }, lang));
+    return [{ "@type": "PropertyValue", name, value: m.amount, unitText: m.currency }];
+  };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": url,
+        url,
+        name: t.rent.metaTitle[city],
+        inLanguage: LOCALE_TAG[lang],
+        about: cityPlace(city, lang),
+        ...(rent.updatedAt ? { dateModified: rent.updatedAt.toISOString() } : {}),
+        mainEntity: { "@id": `${url}#dataset` },
+        breadcrumb: { "@id": `${url}#breadcrumb` },
+        isPartOf: { "@id": ids(site).website },
+        publisher: { "@id": ids(site).org },
+      },
+      {
+        "@type": "Dataset",
+        "@id": `${url}#dataset`,
+        url,
+        name: t.rent.datasetName[city],
+        description: fill(t.rent.datasetDescription, { city: t.meta.cityIn[city] }),
+        inLanguage: LOCALE_TAG[lang],
+        isAccessibleForFree: true,
+        creator: { "@id": ids(site).org },
+        publisher: { "@id": ids(site).org },
+        spatialCoverage: cityPlace(city, lang),
+        temporalCoverage: day(today),
+        ...(rent.updatedAt ? { dateModified: rent.updatedAt.toISOString() } : {}),
+        measurementTechnique: t.rent.method,
+        variableMeasured: [
+          ...measured(fill(t.rent.variable, { kind: t.cities[city] }), rent.all),
+          ...PLACE_FILTERS.flatMap((k) => measured(fill(t.rent.variable, { kind: t.filters.types[k] }), rent.kinds[k])),
+          ...rent.districts.flatMap((d) => measured(fill(t.rent.variable, { kind: d.name }), d)),
+        ],
+      },
+      breadcrumb(`${url}#breadcrumb`, [
+        ["Subletka", `${site}${routes.home(lang)}`],
+        [t.cities[city], cityUrl],
+        [t.rent.link, url],
       ]),
       ...publisher(site),
     ],

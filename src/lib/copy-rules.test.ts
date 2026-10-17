@@ -9,6 +9,8 @@ import { priceView } from "./i18n/format";
 import { llmsFullTxt, llmsTxt } from "./llms-txt";
 import { openApiSpec } from "./openapi";
 import { OPERATIONS } from "./agent-query";
+import { rentJsonLd } from "./json-ld";
+import { cityRent } from "./rent-stats";
 
 const issues = (text: string) => findCopyIssues(text).map((i) => `${i.rule}:${i.match}`);
 
@@ -77,6 +79,12 @@ const counts = [
   { city: "warszawa" as const, activeListings: 1, districts: [{ name: "Mokotów", activeListings: 1 }] },
   { city: "krakow" as const, activeListings: 0, districts: [] },
 ];
+const rent = cityRent(
+  "warszawa",
+  [2000, 2100, 2200].map((monthlyPln) => ({ kind: "room" as const, district: "Mokotów", monthlyPln, price: { amount: monthlyPln, currency: "PLN" as const }, outlier: false, minutes: 15 })),
+  new Date(),
+  () => null,
+);
 
 test("agent-facing documents and the live MCP handshake never decline the brand or mention weeks", async () => {
   const call = (body: object) =>
@@ -92,7 +100,8 @@ test("agent-facing documents and the live MCP handshake never decline the brand 
   assert.match(init, /long-term stays/);
   assert.match(tools, /search_listings/);
   const docs = [
-    llmsTxt("https://subletka.com", counts),
+    llmsTxt("https://subletka.com", counts, new Date(), [rent]),
+    JSON.stringify(rentJsonLd(rent, "pl", "https://subletka.com", new Date())),
     llmsFullTxt("https://subletka.com", "pl", { warszawa: [], krakow: [] }),
     llmsFullTxt("https://subletka.com", "en", { warszawa: [], krakow: [] }),
     JSON.stringify(openApiSpec("https://subletka.com")),

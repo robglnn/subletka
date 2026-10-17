@@ -19,6 +19,8 @@ export const formatMoney = (locale: Locale, m: Money) => {
     : new Intl.NumberFormat(LOCALE_TAG[locale], { style: "currency", currency, maximumFractionDigits: 0, useGrouping: "always" }).format(amount);
 };
 
+export const formatMedian = (locale: Locale, pln: number) => formatMoney(locale, roundMoney(displayMoney({ amount: pln, currency: "PLN" }, locale)));
+
 const parseDay = (iso: string) => new Date(`${iso}T00:00:00Z`);
 
 export const formatDay = (locale: Locale, iso: string, now = new Date()) => {

@@ -176,7 +176,7 @@ test("the push reports added, changed and removed listings by public id", { skip
   assert.deepEqual(result.changes, { added: [pid("qa_pruned:6")], changed: [pid("qa_pruned:4")], removed: [pid("qa_pruned:5")] });
 });
 
-test("the ingest endpoint pings IndexNow with every added, changed and removed listing in both languages, and still succeeds when IndexNow is down", { skip: !url && "needs DATABASE_URL" }, async () => {
+test("the ingest endpoint pings IndexNow with every added, changed and removed listing and the pages that list them in both languages, and still succeeds when IndexNow is down", { skip: !url && "needs DATABASE_URL" }, async () => {
   const env = { INGEST_TOKEN: "qa-token", SITE_URL: "https://subletka.com", INDEXNOW_KEY: "abababababababababababababababab" };
   const saved = Object.fromEntries(Object.keys(env).map((k) => [k, process.env[k]]));
   const realFetch = globalThis.fetch;
@@ -193,10 +193,11 @@ test("the ingest endpoint pings IndexNow with every added, changed and removed l
     const res = await POST(new Request("http://localhost/api/ingest", { method: "POST", headers: { authorization: "Bearer qa-token" }, body }));
     assert.equal(res.status, 200);
     const json = await res.json();
-    assert.deepEqual([json.upserted, json.removed, json.indexnow], [2, 1, { submitted: 0, failed: 6 }]);
+    assert.deepEqual([json.upserted, json.removed, json.indexnow], [2, 1, { submitted: 0, failed: 12 }]);
     const link = (id: string, lang: string) => `https://subletka.com/${lang}/l/${pid(id)}`;
+    const hubs = ["", "/warszawa", "/warszawa/rent"].flatMap((p) => [`https://subletka.com/pl${p}`, `https://subletka.com/en${p}`]);
     assert.deepEqual(posted, [
-      [link("qa_pruned:9", "pl"), link("qa_pruned:9", "en"), link("qa_pruned:7", "pl"), link("qa_pruned:7", "en"), link("qa_pruned:8", "pl"), link("qa_pruned:8", "en")],
+      [link("qa_pruned:9", "pl"), link("qa_pruned:9", "en"), link("qa_pruned:7", "pl"), link("qa_pruned:7", "en"), link("qa_pruned:8", "pl"), link("qa_pruned:8", "en"), ...hubs],
     ]);
   } finally {
     globalThis.fetch = realFetch;
