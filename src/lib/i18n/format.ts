@@ -1,5 +1,5 @@
-import { LOCALE_TAG, warsawDay, type Listing, type Locale } from "@/lib/domain";
-import { displayMoney, type Money } from "@/lib/money";
+import { LOCALE_TAG, warsawDay, type Listing, type Locale, type ShownPeriod } from "@/lib/domain";
+import { displayMoney, monthlyAmount, roundMoney, type Money } from "@/lib/money";
 import { getDictionary, type Plural } from "./dictionaries";
 import { fill } from "./fill";
 
@@ -50,7 +50,7 @@ export const availability = (locale: Locale, l: Pick<Listing, "availableFrom" | 
 export const minStay = (locale: Locale, days: number | null) => {
   if (!days) return null;
   const t = getDictionary(locale).listing.minStay;
-  return days >= 28 ? plural(locale, t.months, Math.round(days / 30)) : plural(locale, t.days, days);
+  return plural(locale, t.months, Math.ceil(days / 31));
 };
 
 export const roommatesLine = (locale: Locale, l: Pick<Listing, "placeType" | "roommates">) => {
@@ -64,6 +64,7 @@ export const roommatesLine = (locale: Locale, l: Pick<Listing, "placeType" | "ro
 
 export const priceView = (locale: Locale, l: Pick<Listing, "price">) => {
   const t = getDictionary(locale).listing;
-  const money = formatMoney(locale, l.price);
-  return { main: l.price.startingAt ? `${t.from} ${money}` : money, unit: t.per[l.price.period] };
+  const period: ShownPeriod = l.price.period === "week" ? "month" : l.price.period;
+  const money = formatMoney(locale, period === l.price.period ? l.price : roundMoney({ amount: monthlyAmount(l.price), currency: l.price.currency }));
+  return { main: l.price.startingAt ? `${t.from} ${money}` : money, unit: t.per[period] };
 };

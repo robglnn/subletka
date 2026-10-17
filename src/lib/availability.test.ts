@@ -17,10 +17,15 @@ test("an end date shows as a range in both languages", () => {
   assert.equal(availability("en", { availableFrom: "2026-10-01", availableTo: "2026-12-31" }, at), "now – 31 Dec");
 });
 
-test("minimum stays read in months from four weeks up and in days below", () => {
-  assert.equal(minStay("en", 121), "4 mo min");
-  assert.equal(minStay("pl", 121), "min. 4 miesiące");
-  assert.equal(minStay("pl", 30), "min. 1 miesiąc");
-  assert.equal(minStay("en", 7), "7 days min");
+test("minimum stays always read in whole months, rounded up", () => {
+  assert.equal(minStay("en", 14), "min. 1 month");
+  assert.equal(minStay("pl", 14), "min. 1 miesiąc");
+  assert.equal(minStay("en", 30), "min. 1 month");
+  assert.equal(minStay("pl", 31), "min. 1 miesiąc");
+  assert.equal(minStay("en", 45), "min. 2 months");
+  assert.equal(minStay("pl", 45), "min. 2 miesiące");
+  assert.equal(minStay("pl", 90), "min. 3 miesiące");
+  assert.equal(minStay("pl", 150), "min. 5 miesięcy");
+  assert.equal(minStay("en", 360), "min. 12 months");
   assert.equal(minStay("en", null), null);
 });

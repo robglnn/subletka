@@ -1,3 +1,4 @@
+import { copyProblems } from "../src/lib/copy-rules";
 import { findForbidden, isSourceHost, type ForbiddenHit } from "../src/lib/forbidden-copy";
 import { publicListingId } from "../src/lib/listing-id";
 
@@ -151,6 +152,7 @@ async function audit(target: Target, auth: Auth) {
     const body = await res.text();
     hit("body", body);
     problems.push(...agentProblems(body, target.kind, target.lang));
+    problems.push(...copyProblems(target.kind === "json" ? withoutDescriptions(body) : body));
   } else {
     const html = await res.text();
     const text = visibleText(html);
@@ -159,6 +161,7 @@ async function audit(target: Target, auth: Auth) {
     hit("head", head);
     hit("html", html);
     hit("internal-url", internalUrls(html));
+    problems.push(...copyProblems(`${visibleText(withoutHostText(html))}\n${head}`));
     for (const ref of externalRefs(html)) problems.push(`${ref.attr} points at source host ${ref.host}`);
     const lang = target.path.split("/")[1];
     if (lang === "pl" || lang === "en") {

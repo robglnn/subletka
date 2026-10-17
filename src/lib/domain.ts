@@ -28,6 +28,7 @@ export const CURRENCIES = ["PLN", "EUR"] as const;
 export type Currency = (typeof CURRENCIES)[number];
 export const PRICE_PERIODS = ["month", "week", "night"] as const;
 export type PricePeriod = (typeof PRICE_PERIODS)[number];
+export type ShownPeriod = Exclude<PricePeriod, "week">;
 export const TERM_KINDS = ["sublet", "mid_term", "flexible"] as const;
 export type TermKind = (typeof TERM_KINDS)[number];
 

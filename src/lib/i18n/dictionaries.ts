@@ -1,4 +1,4 @@
-import type { Cancellation, City, Gender, Locale, PlaceFilter, PlaceType, PricePeriod, Sort } from "@/lib/domain";
+import type { Cancellation, City, Gender, Locale, PlaceFilter, PlaceType, ShownPeriod, Sort } from "@/lib/domain";
 
 export type Plural = { one: string; other: string; few?: string; many?: string };
 
@@ -22,7 +22,7 @@ const pl = {
     cityListingsNone: "Pokoje i mieszkania na miesiąc",
     cityMedian: "Mediana czynszu {amount}.",
     postTitle: "Dodaj ogłoszenie",
-    aboutTitle: "O Subletce",
+    aboutTitle: "O Subletka",
     manageTitle: "Twoje ogłoszenie",
     meTitle: "Moje ogłoszenia",
     savedTitle: "Zapisane",
@@ -141,11 +141,10 @@ const pl = {
     available: "dostępne",
     from: "od",
     now: "od zaraz",
-    per: { month: "/mies.", week: "/tydz.", night: "/noc" } as Record<PricePeriod, string>,
+    per: { month: "/mies.", night: "/noc" } as Record<ShownPeriod, string>,
     placeType: { whole_place: "całe mieszkanie", private_room: "pokój", shared_room: "miejsce w pokoju" } as Record<PlaceType, string>,
     minStay: {
       months: { one: "min. {n} miesiąc", few: "min. {n} miesiące", many: "min. {n} miesięcy", other: "min. {n} miesiąca" } as Plural,
-      days: { one: "min. {n} dzień", few: "min. {n} dni", many: "min. {n} dni", other: "min. {n} dnia" } as Plural,
     },
     want: "chcę to",
     nativeNote: "Kontakt bezpośrednio z osobą, która podnajmuje.",
@@ -173,7 +172,7 @@ const pl = {
     deposit: "kaucja",
     depositNone: "brak",
     depositMonths: { one: "{n} miesiąc", few: "{n} miesiące", many: "{n} miesięcy", other: "{n} miesiąca" } as Plural,
-    contactBody: "Dzień dobry, piszę w sprawie ogłoszenia na Subletce: {url}",
+    contactBody: "Dzień dobry, piszę w sprawie ogłoszenia na subletka.com: {url}",
     report: "zgłoś ogłoszenie",
     posted: "dodane",
     allPhotos: "wszystkie zdjęcia",
@@ -266,7 +265,7 @@ const pl = {
     signIn: "Zaloguj się, żeby zobaczyć swoje ogłoszenia.",
   },
   about: {
-    title: "o Subletce",
+    title: "o Subletka",
     lines: [
       "Subletka zbiera pokoje i mieszkania na dłuższy pobyt w Warszawie i Krakowie.",
     ],
@@ -506,11 +505,10 @@ const en: Dictionary = {
     available: "available",
     from: "from",
     now: "now",
-    per: { month: "/mo", week: "/wk", night: "/night" },
+    per: { month: "/mo", night: "/night" },
     placeType: { whole_place: "entire place", private_room: "private room", shared_room: "shared room" },
     minStay: {
-      months: { one: "{n} mo min", other: "{n} mo min" },
-      days: { one: "{n} day min", other: "{n} days min" },
+      months: { one: "min. {n} month", other: "min. {n} months" },
     },
     want: "i want it",
     nativeNote: "You contact the person subletting directly.",
