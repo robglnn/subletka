@@ -1,6 +1,6 @@
 # Subletka
 
-Subletka lists rooms and flats for stays of weeks or months in Warsaw and Kraków, in Polish and English. Anyone can browse and contact a lister without an account, and listers post and edit in the browser. The site is live at [subletka.com](https://subletka.com).
+Rooms and flats for long-term stays in Warsaw and Kraków. Anyone can browse and contact a lister without an account, and listers post and edit in the browser. The site is live at [subletka.com](https://subletka.com).
 
 ## Stack
 
