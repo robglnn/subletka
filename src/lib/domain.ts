@@ -17,6 +17,27 @@ export type PlaceType = (typeof PLACE_TYPES)[number];
 export const PLACE_FILTERS = ["room", "studio", "flat"] as const;
 export type PlaceFilter = (typeof PLACE_FILTERS)[number];
 
+export const TYPE_PARAMS = [...PLACE_FILTERS, "whole"] as const;
+export type TypeParam = (typeof TYPE_PARAMS)[number];
+
+export const PLACE_KINDS = ["any", "room", "whole"] as const;
+export type PlaceKind = (typeof PLACE_KINDS)[number];
+export const KIND_FILTERS: Record<PlaceKind, PlaceFilter[]> = { any: [], room: ["room"], whole: ["studio", "flat"] };
+
+export const expandTypes = (params: readonly TypeParam[]): PlaceFilter[] =>
+  PLACE_FILTERS.filter((f) => params.includes(f) || (f !== "room" && params.includes("whole")));
+
+export const placeKind = (type: readonly PlaceFilter[]): PlaceKind | null => {
+  const room = type.includes("room");
+  const whole = type.some((t) => t !== "room");
+  if (!room && !whole) return "any";
+  if (room && whole) return new Set(type).size === PLACE_FILTERS.length ? "any" : null;
+  return room ? "room" : "whole";
+};
+
+export const typeParam = (type: readonly PlaceFilter[]) =>
+  KIND_FILTERS.whole.every((f) => type.includes(f)) && !type.includes("room") ? "whole" : PLACE_FILTERS.filter((f) => type.includes(f)).join(",");
+
 export const SORTS = ["best", "cheapest", "newest"] as const;
 export type Sort = (typeof SORTS)[number];
 export const DEFAULT_SORT: Sort = "best";

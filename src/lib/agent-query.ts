@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CITIES, DEFAULT_SORT, DISTRICT_NAMES, LOCALES, PLACE_FILTERS, SORTS, canonicalDistrict, type City } from "@/lib/domain";
+import { CITIES, DEFAULT_SORT, DISTRICT_NAMES, LOCALES, SORTS, TYPE_PARAMS, canonicalDistrict, type City } from "@/lib/domain";
 
 const isoDay = z
   .string()
@@ -26,9 +26,9 @@ export const SearchQuery = z
     from: isoDay.optional().meta({ description: "Move-in date, YYYY-MM-DD. Returns places available on or before this day.", example: "2026-11-01" }),
     to: isoDay.optional().meta({ description: "Move-out date, YYYY-MM-DD. Returns places available until at least this day or open-ended.", example: "2027-01-31" }),
     type: z
-      .array(z.enum(PLACE_FILTERS))
+      .array(z.enum(TYPE_PARAMS))
       .optional()
-      .meta({ description: "Place types, comma separated in a URL. room is a private or shared room, studio is a one-room whole place, flat is any other whole place. Each result carries the same type field." }),
+      .meta({ description: "Place types, comma separated in a URL. room is a private or shared room, studio is a one-room whole place, flat is any other whole place, whole is studio and flat together. Each result carries type room, studio or flat." }),
     rooms: z
       .number()
       .int()

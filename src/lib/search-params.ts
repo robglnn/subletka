@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { DEFAULT_SORT, PLACE_FILTERS, SORTS } from "@/lib/domain";
+import { DEFAULT_SORT, expandTypes, SORTS, TYPE_PARAMS } from "@/lib/domain";
 
 const isoDay = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 const first = (v: unknown) => (Array.isArray(v) ? v[0] : v);
@@ -9,10 +9,12 @@ const flag = z.preprocess((v) => first(v) === "1", z.boolean());
 export const Filters = z.object({
   from: optional(isoDay),
   to: optional(isoDay),
-  type: z.preprocess(
-    (v) => String(first(v) ?? "").split(",").filter(Boolean),
-    z.array(z.enum(PLACE_FILTERS)).catch([]),
-  ),
+  type: z
+    .preprocess(
+      (v) => String(first(v) ?? "").split(",").filter(Boolean),
+      z.array(z.enum(TYPE_PARAMS)).catch([]),
+    )
+    .transform(expandTypes),
   max: optional(z.coerce.number().int().positive().max(1_000_000)),
   furnished: flag,
   pets: flag,

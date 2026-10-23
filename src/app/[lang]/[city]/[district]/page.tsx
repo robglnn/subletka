@@ -4,13 +4,14 @@ import { notFound } from "next/navigation";
 import { DistrictLinks, GlanceStrip } from "@/components/glance-strip";
 import { JsonLd } from "@/components/json-ld";
 import { CARD_SIZES, ListingGrid } from "@/components/listing-card";
+import { PlaceKindLinks } from "@/components/place-kind";
 import { ResultsLayout, type MapPoint } from "@/components/results-map";
 import { SectionLabel } from "@/components/section-label";
 import { browse, cityGlance } from "@/db/listings";
 import { districtMinutes } from "@/lib/area";
-import { approximateLocation, districtBySlug, isCity, isLocale } from "@/lib/domain";
+import { approximateLocation, districtBySlug, isCity, isLocale, placeKind } from "@/lib/domain";
 import { siteUrl } from "@/lib/env";
-import { filterQuery } from "@/lib/filter-query";
+import { filterQuery, isFiltered, kindHrefs } from "@/lib/filter-query";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { fill } from "@/lib/i18n/fill";
 import { plural, priceView } from "@/lib/i18n/format";
@@ -67,9 +68,15 @@ export default async function DistrictPage({ params, searchParams }: PageProps<"
         <p className="max-w-prose text-base text-muted-foreground">{fill(t.district.intro, { district: district.name })}</p>
       </div>
       <GlanceStrip lang={lang} glance={{ total: glance.total, lowest: glance.lowest, medianPln: glance.medianPln, minutes: minutes === null ? null : Math.round(minutes) }} />
+      <PlaceKindLinks
+        value={placeKind(f.type)}
+        hrefs={kindHrefs(here, f)}
+        labels={{ label: t.filters.type, kinds: t.filters.kinds }}
+        className="sm:w-fit sm:[&>*]:flex-none"
+      />
       {total === 0 ? (
         <div className="flex flex-col items-start gap-5 py-10">
-          <p className="font-condensed text-3xl font-bold tracking-tight">{t.district.empty}</p>
+          <p className="font-condensed text-3xl font-bold tracking-tight">{isFiltered(f) ? t.results.emptyFiltered : t.district.empty}</p>
           <Link
             href={routes.city(lang, city)}
             className="inline-flex h-12 items-center rounded-full bg-primary px-6 text-base font-semibold text-primary-foreground"

@@ -84,6 +84,14 @@ test("search pages through results and reports the full total", { skip: !url && 
   assert.deepEqual(first.listings.map((l) => l.id), [pid("room"), pid("match")]);
 });
 
+test("search takes type=whole for studios and flats together, as the website does", { skip: !url && "needs DATABASE_URL" }, async () => {
+  const whole = await searchListings(q({ type: ["whole"] }));
+  assert.deepEqual(ids(whole), [pid("eur"), pid("match"), pid("too-dear"), pid("too-late")].sort());
+  assert.deepEqual(ids(await searchListings(q({ type: ["studio", "flat"] }))), ids(whole));
+  assert.deepEqual(ids(await searchListings(q({ type: ["room"] }))), [pid("room")]);
+  assert.equal(SearchQuery.safeParse({ city: CITY, type: ["house"] }).success, false);
+});
+
 test("listings available by the move-in day, today when no dates are searched, rank ahead of cheaper ones that open later", { skip: !url && "needs DATABASE_URL" }, async () => {
   const order = async (input: Record<string, unknown>) =>
     (await searchListings(q({ district: "borek falecki", sort: "cheapest", ...input }))).listings.map((l) => l.id);

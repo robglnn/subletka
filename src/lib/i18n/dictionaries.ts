@@ -1,4 +1,4 @@
-import type { Cancellation, City, Gender, Locale, PlaceFilter, PlaceType, ShownPeriod, Sort } from "@/lib/domain";
+import type { Cancellation, City, Gender, Locale, PlaceFilter, PlaceKind, PlaceType, ShownPeriod, Sort } from "@/lib/domain";
 
 export type Plural = { one: string; other: string; few?: string; many?: string };
 
@@ -72,6 +72,7 @@ const pl = {
     clearAll: "wyczyść",
     type: "typ miejsca",
     types: { room: "pokój", studio: "kawalerka", flat: "mieszkanie" } as Record<PlaceFilter, string>,
+    kinds: { any: "dowolne", room: "pokój", whole: "całe mieszkanie" } as Record<PlaceKind, string>,
     budget: "budżet miesięczny",
     anyBudget: "dowolny budżet",
     upTo: "do {n}",
@@ -463,6 +464,7 @@ const en: Dictionary = {
     clearAll: "clear all",
     type: "type of place",
     types: { room: "room", studio: "studio", flat: "flat" },
+    kinds: { any: "any", room: "room", whole: "whole place" },
     budget: "monthly budget",
     anyBudget: "any budget",
     upTo: "up to {n}",

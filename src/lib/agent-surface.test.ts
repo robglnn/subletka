@@ -207,7 +207,7 @@ test("the OpenAPI spec documents every operation with typed parameters and respo
     in: "query",
     required: false,
     description: SearchQuery.shape.type.meta()?.description,
-    schema: { type: "array", items: { type: "string", enum: ["room", "studio", "flat"] } },
+    schema: { type: "array", items: { type: "string", enum: ["room", "studio", "flat", "whole"] } },
     style: "form",
     explode: false,
   });
@@ -274,4 +274,6 @@ test("a district search sends people to that district's page with the same filte
   const q = (query: string) => SearchQuery.parse(fromSearchParams(new URLSearchParams(query)));
   assert.equal(searchPageUrl(SITE, q("city=warszawa&district=praga poludnie&lang=en&max=900")), `${SITE}/en/warszawa/praga-poludnie?max=3843`);
   assert.equal(searchPageUrl(SITE, q("city=krakow&lang=pl&sort=cheapest")), `${SITE}/pl/krakow?sort=cheapest`);
+  assert.equal(searchPageUrl(SITE, q("city=krakow&lang=pl&type=flat,studio")), `${SITE}/pl/krakow?type=whole`);
+  assert.equal(searchPageUrl(SITE, q("city=krakow&lang=pl&type=room")), `${SITE}/pl/krakow?type=room`);
 });

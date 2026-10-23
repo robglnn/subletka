@@ -1,7 +1,7 @@
 import "server-only";
 import { and, asc, eq, gte } from "drizzle-orm";
 import { resolveDistrict, type SearchQuery } from "@/lib/agent-query";
-import { DISTRICT_NAMES, type City, type Listing, type Locale } from "@/lib/domain";
+import { DISTRICT_NAMES, expandTypes, type City, type Listing, type Locale } from "@/lib/domain";
 import { displayMoney, roundMoney, toPln, type Money } from "@/lib/money";
 import { db } from "./index";
 import { browseWhere, toListing } from "./listings";
@@ -18,7 +18,7 @@ export async function searchListings(q: SearchQuery) {
       city: q.city,
       from: q.from,
       to: q.to,
-      type: q.type ?? [],
+      type: expandTypes(q.type ?? []),
       max: q.max ? toPln(q.max, q.lang) : undefined,
       furnished: q.furnished ?? false,
       pets: q.pets ?? false,
