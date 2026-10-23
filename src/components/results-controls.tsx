@@ -6,12 +6,13 @@ import { useRouter } from "next/navigation";
 import { ChevronLeft, PawPrint, SlidersHorizontal, Sofa, XIcon } from "lucide-react";
 import { Dialog } from "@base-ui/react/dialog";
 import { DateRangeDialog, formatRange, type DateRangeLabels } from "@/components/date-range";
-import { DEFAULT_SORT, PLACE_FILTERS, SORTS, type City, type Locale } from "@/lib/domain";
+import { PlaceKindLinks } from "@/components/place-kind";
+import { DEFAULT_SORT, placeKind, SORTS, type City, type Locale } from "@/lib/domain";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { fill } from "@/lib/i18n/fill";
 import { formatMoney, plural } from "@/lib/i18n/format";
 import { fromPln, LOCALE_CURRENCY, toPln } from "@/lib/money";
-import { activeFilterCount, filterQuery } from "@/lib/filter-query";
+import { activeFilterCount, filterQuery, kindHrefs } from "@/lib/filter-query";
 import type { Filters } from "@/lib/search-params";
 import { cn } from "@/lib/utils";
 
@@ -102,7 +103,7 @@ function FilterSheet({
           <div className="flex items-center justify-between border-b border-border px-4 py-2">
             <button
               type="button"
-              onClick={() => setDraft({ ...draft, type: [], max: undefined, furnished: false, pets: false, sort: DEFAULT_SORT })}
+              onClick={() => setDraft({ ...draft, max: undefined, furnished: false, pets: false, sort: DEFAULT_SORT })}
               className="inline-flex h-11 items-center px-1 text-sm font-semibold text-muted-foreground"
             >
               {labels.clearAll}
@@ -113,25 +114,6 @@ function FilterSheet({
             </Dialog.Close>
           </div>
           <div className="flex-1 overflow-y-auto px-5">
-            <fieldset className={section}>
-              <legend className="pb-3 text-base text-muted-foreground">{labels.type}</legend>
-              <div className="flex flex-wrap gap-2">
-                {PLACE_FILTERS.map((p) => {
-                  const on = draft.type.includes(p);
-                  return (
-                    <button
-                      key={p}
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => set({ type: on ? draft.type.filter((x) => x !== p) : [...draft.type, p] })}
-                      className={chip(on)}
-                    >
-                      {labels.types[p]}
-                    </button>
-                  );
-                })}
-              </div>
-            </fieldset>
             <div className={section}>
               <label htmlFor="budget" className="text-base text-muted-foreground">
                 {labels.budget}
@@ -227,8 +209,8 @@ export function ResultsControls({
   };
   const range = formatRange(lang, filters);
   return (
-    <div className="flex items-center gap-2">
-      <div className="flex h-12 min-w-0 flex-1 items-center rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
+    <div className="grid grid-cols-[1fr_auto] items-center gap-2 sm:grid-cols-[1fr_auto_auto]">
+      <div className="flex h-12 min-w-0 items-center rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
         <Link href={`/${lang}`} aria-label={labels.back} className="inline-flex h-12 w-11 shrink-0 items-center justify-center">
           <ChevronLeft className="size-5" />
         </Link>
@@ -237,6 +219,12 @@ export function ResultsControls({
           <span className="truncate text-sm text-muted-foreground">· {range ?? labels.dates.addDates}</span>
         </button>
       </div>
+      <PlaceKindLinks
+        value={placeKind(filters.type)}
+        hrefs={kindHrefs(`/${lang}/${city}`, filters)}
+        labels={{ label: labels.filters.type, kinds: labels.filters.kinds }}
+        className="order-last col-span-2 sm:order-none sm:col-span-1 sm:w-auto sm:[&>*]:flex-none"
+      />
       <FilterSheet lang={lang} city={city} filters={filters} total={total} labels={labels.filters} onApply={apply} />
       <DateRangeDialog
         locale={lang}

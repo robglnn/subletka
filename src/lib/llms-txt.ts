@@ -109,7 +109,7 @@ export const llmsTxt = (site: string, cities: CityCounts[], now = new Date(), re
     "## Website",
     "",
     ...CITIES.map((c) => `- [${en.cities[c]}](${site}${routes.city("en", c)}) · [${getDictionary("pl").cities[c]}](${site}${routes.city("pl", c)})`),
-    "- City pages take `from`, `to`, `type`, `max`, `furnished=1`, `pets=1` and `sort=cheapest` or `sort=newest` in the query string. On the website `max` is always in zł, even on `/en` pages. Each district has its own page, such as `/pl/warszawa/mokotow`, with the same query string. The website has no rooms filter, so use the API for that.",
+    "- City pages take `from`, `to`, `type` (`room` or `whole`), `max`, `furnished=1`, `pets=1` and `sort=cheapest` or `sort=newest` in the query string. On the website `max` is always in zł, even on `/en` pages. Each district has its own page, such as `/pl/warszawa/mokotow`, with the same query string. The website has no rooms filter, so use the API for that.",
     `- Listing pages are \`${site}/en/l/{id}\` and \`${site}/pl/l/{id}\`.`,
     "",
     "## Optional",

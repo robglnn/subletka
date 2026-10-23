@@ -4,20 +4,32 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { DateRangeDialog, formatRange, type DateRange, type DateRangeLabels } from "@/components/date-range";
-import { CITIES, type City, type Locale } from "@/lib/domain";
+import { PlaceKindToggle, type PlaceKindLabels } from "@/components/place-kind";
+import { CITIES, KIND_FILTERS, type City, type Locale, type PlaceKind } from "@/lib/domain";
 import { filterQuery } from "@/lib/filter-query";
 
 export type SearchLabels = DateRangeLabels & { where: string; when: string; addDates: string; submit: string };
 
 const field = "flex min-h-14 w-full flex-col justify-center rounded-2xl bg-white px-4 text-left shadow-sm ring-1 ring-black/5";
 
-export function SearchForm({ lang, labels, cityNames }: { lang: Locale; labels: SearchLabels; cityNames: Record<City, string> }) {
+export function SearchForm({
+  lang,
+  labels,
+  kindLabels,
+  cityNames,
+}: {
+  lang: Locale;
+  labels: SearchLabels;
+  kindLabels: PlaceKindLabels;
+  cityNames: Record<City, string>;
+}) {
   const router = useRouter();
   const [city, setCity] = useState<City>("warszawa");
   const [range, setRange] = useState<DateRange>({});
+  const [kind, setKind] = useState<PlaceKind>("any");
   const [open, setOpen] = useState(false);
   const go = () => {
-    const q = filterQuery(range).toString();
+    const q = filterQuery({ ...range, type: KIND_FILTERS[kind] }).toString();
     router.push(`/${lang}/${city}${q ? `?${q}` : ""}`);
   };
   return (
@@ -26,7 +38,7 @@ export function SearchForm({ lang, labels, cityNames }: { lang: Locale; labels: 
         e.preventDefault();
         go();
       }}
-      className="grid gap-3 md:grid-cols-[1fr_1fr_auto] md:items-end md:gap-2 md:rounded-2xl md:bg-white md:p-2 md:shadow-sm md:ring-1 md:ring-black/5"
+      className="grid gap-3 md:grid-cols-[1fr_1fr_auto_auto] md:items-end md:gap-2 md:rounded-2xl md:bg-white md:p-2 md:shadow-sm md:ring-1 md:ring-black/5"
     >
       <label className="flex flex-col gap-1.5 text-base md:gap-0">
         <span className="md:sr-only">{labels.where}</span>
@@ -59,6 +71,12 @@ export function SearchForm({ lang, labels, cityNames }: { lang: Locale; labels: 
           <span className={range.from ? "font-medium" : "text-muted-foreground"}>{formatRange(lang, range) ?? labels.addDates}</span>
         </button>
       </div>
+      <PlaceKindToggle
+        value={kind}
+        onChange={setKind}
+        labels={kindLabels}
+        className="md:w-auto md:self-center md:bg-secondary md:shadow-none md:ring-0 md:[&>*]:flex-none"
+      />
       <button
         type="submit"
         className="mt-2 inline-flex h-14 items-center justify-center gap-2 rounded-2xl bg-primary px-6 text-lg font-bold text-primary-foreground shadow-md md:mt-0 md:size-14 md:px-0"

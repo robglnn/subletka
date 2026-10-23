@@ -20,7 +20,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
       <section className="bg-secondary">
         <div className="mx-auto flex max-w-3xl flex-col gap-7 px-4 pt-12 pb-10 sm:px-6 sm:pt-20 sm:pb-14">
           <h1 className="text-center text-5xl sm:text-7xl">{t.home.heading}</h1>
-          <SearchForm lang={lang} labels={{ ...t.search, close: t.nav.close }} cityNames={t.cities} />
+          <SearchForm lang={lang} labels={{ ...t.search, close: t.nav.close }} kindLabels={{ label: t.filters.type, kinds: t.filters.kinds }} cityNames={t.cities} />
         </div>
       </section>
       <div className="mx-auto max-w-6xl px-4 sm:px-6">

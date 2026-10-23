@@ -1,4 +1,4 @@
-import { findDistrict, type Listing, type Locale, type PlaceFilter } from "@/lib/domain";
+import { expandTypes, findDistrict, type Listing, type Locale, type PlaceFilter } from "@/lib/domain";
 import { filterQuery } from "@/lib/filter-query";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { listingTitle, priceView } from "@/lib/i18n/format";
@@ -64,7 +64,7 @@ export const searchPageUrl = (site: string, q: SearchQuery) => {
   const query = filterQuery({
     from: q.from,
     to: q.to,
-    type: q.type,
+    type: expandTypes(q.type ?? []),
     max: q.max ? toPln(q.max, q.lang) : undefined,
     furnished: q.furnished,
     pets: q.pets,

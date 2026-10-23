@@ -14,7 +14,7 @@ import { cityJsonLd } from "@/lib/json-ld";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { plural, priceView } from "@/lib/i18n/format";
 import { routes } from "@/lib/routes";
-import { activeFilterCount, filterQuery } from "@/lib/filter-query";
+import { filterQuery, isFiltered } from "@/lib/filter-query";
 import { Filters } from "@/lib/search-params";
 import { cityDescription, pageMetadata } from "@/lib/seo";
 
@@ -33,7 +33,6 @@ export default async function CityPage({ params, searchParams }: PageProps<"/[la
   const t = getDictionary(lang);
   const f = Filters.parse(await searchParams);
   const [{ listings, total }, glance, top] = await Promise.all([browse({ ...f, city }), cityGlance(city), latest(city, JSON_LD_ITEMS)]);
-  const filtered = activeFilterCount(f) > 0 || Boolean(f.from || f.to);
   const points: MapPoint[] = listings.flatMap((l) => {
     const at = approximateLocation(l)?.center;
     return at ? [{ id: l.id, lat: at[0], lng: at[1], label: priceView(lang, l).main, href: routes.listing(lang, l.id) }] : [];
@@ -72,7 +71,7 @@ export default async function CityPage({ params, searchParams }: PageProps<"/[la
       <GlanceStrip lang={lang} glance={{ total: glance.total, lowest: glance.lowest, medianPln: glance.medianPln }} />
       <p className="text-sm font-semibold">{plural(lang, t.results.count, total)}</p>
       {total === 0 ? (
-        <EmptyState lang={lang} title={filtered ? t.results.emptyFiltered : t.results.emptyTitle} />
+        <EmptyState lang={lang} title={isFiltered(f) ? t.results.emptyFiltered : t.results.emptyTitle} />
       ) : (
         <ResultsLayout points={points} labels={t.results}>
           <ListingGrid listings={listings} lang={lang} sizes={CARD_SIZES.results} className="lg:grid-cols-2" />

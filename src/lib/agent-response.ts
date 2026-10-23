@@ -12,7 +12,7 @@ export const PublicListing = z
     cityName: z.string(),
     district: z.string().nullable(),
     placeType: z.enum(PLACE_TYPES),
-    type: z.enum(PLACE_FILTERS).meta({ description: "Same values as the type search parameter. room is a private or shared room, studio is a one-room whole place, flat is any other whole place." }),
+    type: z.enum(PLACE_FILTERS).meta({ description: "Matches the type search parameter, where whole covers studio and flat. room is a private or shared room, studio is a one-room whole place, flat is any other whole place." }),
     rooms: z.number().int().nullable().meta({ description: "Rooms in a whole place as the lister counted them. Null for rooms in shared places." }),
     areaM2: z.number().int().nullable(),
     price: Money.extend({
