@@ -87,35 +87,20 @@ export default async function CityPage({ params, searchParams }: PageProps<"/[la
         </ResultsLayout>
       )}
       <DistrictLinks lang={lang} city={city} />
-      <div className="grid gap-10 border-t border-border pt-10 md:grid-cols-2">
-        <section className="flex flex-col gap-2">
-          <SectionLabel>{t.faq.title}</SectionLabel>
-          {t.faq.items.map((item) => (
-            <details key={item.q} className="group border-b border-border">
-              <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-2 text-base font-semibold">
-                {item.q}
-                <span aria-hidden className="text-xl transition-transform group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <p className="pb-4 text-base text-muted-foreground">{item.a}</p>
-            </details>
-          ))}
-        </section>
-        <section className="flex flex-col gap-4">
-          <SectionLabel>{t.scams.title}</SectionLabel>
-          <ul className="flex flex-col gap-3">
-            {t.scams.tips.map((tip) => (
-              <li key={tip} className="flex gap-3 text-base">
-                <span aria-hidden className="font-bold text-primary">
-                  ·
-                </span>
-                {tip}
-              </li>
-            ))}
-          </ul>
-        </section>
-      </div>
+      <section className="flex flex-col gap-2 border-t border-border pt-10 md:max-w-3xl">
+        <SectionLabel>{t.faq.title}</SectionLabel>
+        {t.faq.items.map((item) => (
+          <details key={item.q} className="group border-b border-border">
+            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 py-2 text-base font-semibold">
+              {item.q}
+              <span aria-hidden className="text-xl transition-transform group-open:rotate-45">
+                +
+              </span>
+            </summary>
+            <p className="pb-4 text-base text-muted-foreground">{item.a}</p>
+          </details>
+        ))}
+      </section>
     </div>
   );
 }
