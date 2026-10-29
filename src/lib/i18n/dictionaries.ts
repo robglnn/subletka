@@ -148,16 +148,6 @@ const pl = {
       },
     ],
   },
-  scams: {
-    title: "jak nie dać się oszukać",
-    tips: [
-      "Nie płać kaucji ani czynszu, zanim zobaczysz mieszkanie na żywo lub na wideo.",
-      "Nie wysyłaj skanu dowodu ani paszportu przed podpisaniem umowy.",
-      "Uważaj na ceny dużo niższe niż reszta w tej samej dzielnicy.",
-      "Podpisz umowę i płać przelewem, nie gotówką ani kryptowalutą.",
-      "Poproś o umowę najmu albo zgodę właściciela na podnajem.",
-    ],
-  },
   listing: {
     title: ({ placeType, rooms, place }: TitleParts) => {
       if (placeType === "private_room") return `pokój, ${place}`;
@@ -533,16 +523,6 @@ const en: Dictionary = {
         q: "How do I get in touch?",
         a: "Tap “i want it” to reach the person subletting.",
       },
-    ],
-  },
-  scams: {
-    title: "spotting scams",
-    tips: [
-      "Don't pay a deposit or rent before you see the place in person or on video.",
-      "Don't send a scan of your ID or passport before you sign a contract.",
-      "Be wary of prices far below the rest of the same district.",
-      "Sign a contract and pay by bank transfer, never cash or crypto.",
-      "Ask to see the main lease or the owner's consent to sublet.",
     ],
   },
   listing: {
