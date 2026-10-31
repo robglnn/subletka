@@ -21,7 +21,7 @@
     "cn": "^0.4.0",
     "drizzle-orm": "^0.45.4",
     "lucide-react": "^1.57.0",
-    "maplibre-gl": "^6.14.0",
+    "maplibre-gl": "^6.16.0",
     "next": "16.4.3",
     "nodemailer": "^10.2.1",
     "postgres": "^3.4.9",
