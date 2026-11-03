@@ -124,7 +124,7 @@ export default async function ListingPage({ params }: PageProps<"/[lang]/l/[id]"
           <Gallery
             photos={listing.photos}
             alt={title}
-            labels={{ allPhotos: t.listing.allPhotos, photoOf: t.listing.photoOf, close: t.nav.close }}
+            labels={{ allPhotos: t.listing.allPhotos, photoOf: t.listing.photoOf, close: t.nav.close, prevPhoto: t.listing.prevPhoto, nextPhoto: t.listing.nextPhoto }}
           />
         ) : (
           <ListingPhoto src={undefined} alt={title} sizes="100vw" className="-mx-4 aspect-[4/3] sm:mx-0 md:aspect-[3/1]" />

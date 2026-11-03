@@ -60,13 +60,13 @@ export default async function CityPage({ params, searchParams }: PageProps<"/[la
         <SectionLabel as="h1" className="text-4xl sm:text-5xl">
           {t.meta.cityTitle[city].toLowerCase()}
         </SectionLabel>
-        <nav className="flex gap-1">
+        <div className="flex gap-1">
           {CITIES.filter((c) => c !== city).map((c) => (
             <Link key={c} href={routes.city(lang, c)} className="inline-flex h-11 items-center text-sm font-semibold">
               {t.cities[c]} →
             </Link>
           ))}
-        </nav>
+        </div>
       </div>
       <GlanceStrip lang={lang} glance={{ total: glance.total, lowest: glance.lowest, medianPln: glance.medianPln }} />
       <p className="text-sm font-semibold">{plural(lang, t.results.count, total)}</p>

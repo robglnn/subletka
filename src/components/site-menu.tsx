@@ -8,7 +8,7 @@ import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/com
 export type MenuItem = { label: string; href: string };
 
 export type MenuProps = {
-  labels: { menu: string; google: string; signOut: string };
+  labels: { menu: string; close: string; google: string; signOut: string };
   items: MenuItem[];
   account: { kind: "signedIn"; email: string } | { kind: "google" } | { kind: "none" };
   googleHref: string;
@@ -24,7 +24,7 @@ export function SiteMenu({ labels, items, account, googleHref, signOutHref }: Me
       <SheetTrigger aria-label={labels.menu} className="inline-flex size-11 items-center justify-center">
         <MenuIcon className="size-6" />
       </SheetTrigger>
-      <SheetContent side="right" className="w-[85vw] max-w-sm gap-0 px-6 pt-14">
+      <SheetContent side="right" closeLabel={labels.close} className="w-[85vw] max-w-sm gap-0 px-6 pt-14">
         <SheetTitle className="sr-only">{labels.menu}</SheetTitle>
         <nav className="flex flex-col">
           {items.map((item) => (

@@ -47,7 +47,7 @@ export async function SiteHeader({ lang }: { lang: Locale }) {
             <LangSwitch to={other} code={t.switchTo} label={t.switchLabel} />
           </Suspense>
           <SiteMenu
-            labels={{ menu: t.menu, google: t.google, signOut: t.signOut }}
+            labels={{ menu: t.menu, close: t.close, google: t.google, signOut: t.signOut }}
             items={items}
             account={account}
             googleHref={routes.google("")}
