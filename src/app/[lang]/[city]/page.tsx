@@ -73,7 +73,7 @@ export default async function CityPage({ params, searchParams }: PageProps<"/[la
       {total === 0 ? (
         <EmptyState lang={lang} title={isFiltered(f) ? t.results.emptyFiltered : t.results.emptyTitle} />
       ) : (
-        <ResultsLayout points={points} labels={t.results}>
+        <ResultsLayout points={points} labels={{ ...t.results, ui: t.map }}>
           <ListingGrid listings={listings} lang={lang} sizes={CARD_SIZES.results} className="lg:grid-cols-2" />
           {listings.length < total && f.page < 50 && (
             <Link

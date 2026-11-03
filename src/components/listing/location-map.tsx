@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { RED } from "@/lib/brand";
+import { mapLocale, type MapLabels } from "@/lib/map-locale";
 
 const STYLE = "https://tiles.openfreemap.org/styles/positron";
 const WORKER = "/maplibre-gl-worker.mjs";
@@ -17,7 +18,7 @@ const circle = ([lat, lng]: readonly [number, number], radiusM: number, steps = 
   return { type: "Feature" as const, properties: {}, geometry: { type: "Polygon" as const, coordinates: [ring] } };
 };
 
-export function LocationMap({ center, radiusM, label }: { center: readonly [number, number]; radiusM: number; label: string }) {
+export function LocationMap({ center, radiusM, label, ui }: { center: readonly [number, number]; radiusM: number; label: string; ui: MapLabels }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -49,6 +50,7 @@ export function LocationMap({ center, radiusM, label }: { center: readonly [numb
         attributionControl: { compact: true },
         cooperativeGestures: true,
         dragRotate: false,
+        locale: mapLocale(label, ui),
       });
       map.on("load", () => {
         map?.addSource("area", { type: "geojson", data: shape });
@@ -60,7 +62,7 @@ export function LocationMap({ center, radiusM, label }: { center: readonly [numb
       cancelled = true;
       map?.remove();
     };
-  }, [visible, center, radiusM]);
+  }, [visible, center, radiusM, label, ui]);
 
-  return <div ref={ref} role="region" aria-label={label} className="h-72 w-full overflow-hidden rounded-sm bg-muted sm:h-96" />;
+  return <div ref={ref} className="h-72 w-full overflow-hidden rounded-sm bg-muted sm:h-96" />;
 }
