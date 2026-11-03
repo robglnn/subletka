@@ -13,7 +13,7 @@ export function LangSwitch({ to, label, code }: { to: Locale; label: string; cod
     <Link
       href={href}
       hrefLang={to}
-      aria-label={label}
+      aria-label={`${code}, ${label}`}
       className="inline-flex h-11 min-w-11 items-center justify-center px-2 text-sm font-semibold tracking-wide"
     >
       {code}

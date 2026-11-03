@@ -62,5 +62,5 @@ export function LocationMap({ center, radiusM, label }: { center: readonly [numb
     };
   }, [visible, center, radiusM]);
 
-  return <div ref={ref} role="img" aria-label={label} className="h-72 w-full overflow-hidden rounded-sm bg-muted sm:h-96" />;
+  return <div ref={ref} role="region" aria-label={label} className="h-72 w-full overflow-hidden rounded-sm bg-muted sm:h-96" />;
 }

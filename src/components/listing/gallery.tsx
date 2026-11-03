@@ -14,7 +14,7 @@ const MOSAIC: Record<number, string[]> = {
   5: ["col-span-2 row-span-2", "", "", "", ""],
 };
 
-type Labels = { allPhotos: string; photoOf: string; close: string };
+type Labels = { allPhotos: string; photoOf: string; close: string; prevPhoto: string; nextPhoto: string };
 
 const leadSizes = (count: number) => (count === 1 ? "(min-width: 768px) 1104px, 100vw" : "(min-width: 768px) 560px, 100vw");
 
@@ -73,12 +73,12 @@ function Viewer({ photos, alt, start, labels }: { photos: PhotoKey[]; alt: strin
           </div>
         ))}
       </div>
-      <button type="button" aria-label="←" onClick={() => go(-1)} disabled={index === 0} className={`${btn} left-3`}>
+      <button type="button" aria-label={labels.prevPhoto} onClick={() => go(-1)} disabled={index === 0} className={`${btn} left-3`}>
         <ChevronLeft className="size-6" />
       </button>
       <button
         type="button"
-        aria-label="→"
+        aria-label={labels.nextPhoto}
         onClick={() => go(1)}
         disabled={index >= photos.length - 1}
         className={`${btn} right-3`}

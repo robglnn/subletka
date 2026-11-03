@@ -65,7 +65,7 @@ function FilterSheet({
   city: City;
   filters: Filters;
   total: number;
-  labels: Dictionary["filters"];
+  labels: Dictionary["filters"] & { close: string };
   onApply: (f: Filters) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -109,7 +109,7 @@ function FilterSheet({
               {labels.clearAll}
             </button>
             <Dialog.Title className="text-lg font-bold">{labels.title}</Dialog.Title>
-            <Dialog.Close aria-label="×" className="inline-flex size-11 items-center justify-center rounded-xl bg-secondary">
+            <Dialog.Close aria-label={labels.close} className="inline-flex size-11 items-center justify-center rounded-xl bg-secondary">
               <XIcon className="size-5" />
             </Dialog.Close>
           </div>
@@ -225,7 +225,7 @@ export function ResultsControls({
         labels={{ label: labels.filters.type, kinds: labels.filters.kinds }}
         className="order-last col-span-2 sm:order-none sm:col-span-1 sm:w-auto sm:[&>*]:flex-none"
       />
-      <FilterSheet lang={lang} city={city} filters={filters} total={total} labels={labels.filters} onApply={apply} />
+      <FilterSheet lang={lang} city={city} filters={filters} total={total} labels={{ ...labels.filters, close: labels.dates.close }} onApply={apply} />
       <DateRangeDialog
         locale={lang}
         labels={labels.dates}
