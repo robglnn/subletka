@@ -3,10 +3,13 @@ import { listingFate } from "@/db/listing-fate";
 import { canonicalCityPath } from "@/lib/city-alias";
 import { DEFAULT_LOCALE, isLocale, type Locale } from "@/lib/domain";
 import { LISTING_PATH, listingRedirect, requestedListingId } from "@/lib/listing-redirect";
+import { SESSION_COOKIE } from "@/lib/session";
 
 const LANG_COOKIE = "lang";
 const CANONICAL_ORIGIN = "https://subletka.com";
 const SERVED_HOSTS = new Set(["subletka.com", "localhost", "127.0.0.1"]);
+const PRIVATE_PAGES = /^\/[a-z]{2}\/(?:manage|me|post)(?:\/|$)/;
+const REVALIDATE = "private, no-cache";
 
 const fromAcceptLanguage = (header: string | null): Locale => {
   const ranked = (header ?? "")
@@ -39,6 +42,7 @@ export async function proxy(request: NextRequest) {
       if (away) return NextResponse.redirect(new URL(away.location, request.nextUrl), away.status);
     }
     const response = NextResponse.next();
+    if (!request.cookies.has(SESSION_COOKIE) && !PRIVATE_PAGES.test(pathname)) response.headers.set("cache-control", REVALIDATE);
     if (request.cookies.get(LANG_COOKIE)?.value !== first) {
       response.cookies.set(LANG_COOKIE, first, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
     }
