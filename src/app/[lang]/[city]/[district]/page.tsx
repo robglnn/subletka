@@ -87,7 +87,7 @@ export default async function DistrictPage({ params, searchParams }: PageProps<"
       ) : (
         <>
           <p className="text-sm font-semibold">{plural(lang, t.results.count, total)}</p>
-          <ResultsLayout points={points} labels={t.results}>
+          <ResultsLayout points={points} labels={{ ...t.results, ui: t.map }}>
             <ListingGrid listings={listings} lang={lang} sizes={CARD_SIZES.results} className="lg:grid-cols-2" />
             {listings.length < total && f.page < 50 && (
               <Link href={`${here}?${moreQuery}`} scroll={false} className="mt-8 flex h-12 items-center justify-center rounded-xl bg-secondary text-base font-semibold">

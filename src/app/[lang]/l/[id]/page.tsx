@@ -194,7 +194,7 @@ export default async function ListingPage({ params }: PageProps<"/[lang]/l/[id]"
                 place
               )}
             </p>
-            {area && <LocationMap center={area.center} radiusM={area.radiusM} label={place} />}
+            {area && <LocationMap center={area.center} radiusM={area.radiusM} label={place} ui={t.map} />}
             <p className="text-sm text-muted-foreground">{t.listing.locationNote}</p>
             {alt && nudge && (
               <Link href={routes.listing(lang, alt.listing.id)} className="text-base underline-offset-4 hover:underline">

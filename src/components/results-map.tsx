@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { List, Map as MapIcon } from "lucide-react";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { mapLocale, type MapLabels } from "@/lib/map-locale";
 import { cn } from "@/lib/utils";
 
 const STYLE = "https://tiles.openfreemap.org/styles/positron";
@@ -10,7 +11,7 @@ const WORKER = "/maplibre-gl-worker.mjs";
 
 export type MapPoint = { id: string; lat: number; lng: number; label: string; href: string };
 
-function ResultsMap({ points, label, className }: { points: MapPoint[]; label: string; className?: string }) {
+function ResultsMap({ points, label, ui, className }: { points: MapPoint[]; label: string; ui: MapLabels; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const key = points.map((p) => p.id).join(",");
 
@@ -29,6 +30,7 @@ function ResultsMap({ points, label, className }: { points: MapPoint[]; label: s
         fitBoundsOptions: { padding: 48, maxZoom: 14 },
         attributionControl: { compact: true },
         dragRotate: false,
+        locale: mapLocale(label, ui),
       });
       for (const p of points) {
         const a = document.createElement("a");
@@ -46,7 +48,7 @@ function ResultsMap({ points, label, className }: { points: MapPoint[]; label: s
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);
 
-  return <div ref={ref} role="region" aria-label={label} className={cn("overflow-hidden bg-muted", className)} />;
+  return <div ref={ref} className={cn("overflow-hidden bg-muted", className)} />;
 }
 
 const WIDE = "(min-width: 1024px)";
@@ -63,7 +65,7 @@ export function ResultsLayout({
   children,
 }: {
   points: MapPoint[];
-  labels: { map: string; list: string };
+  labels: { map: string; list: string; ui: MapLabels };
   children: ReactNode;
 }) {
   const [view, setView] = useState<"list" | "map">("list");
@@ -78,6 +80,7 @@ export function ResultsLayout({
         <ResultsMap
           points={points}
           label={labels.map}
+          ui={labels.ui}
           className="h-[calc(100dvh-10rem)] rounded-2xl max-lg:mb-20 lg:sticky lg:top-20 lg:h-[calc(100dvh-6rem)]"
         />
       )}

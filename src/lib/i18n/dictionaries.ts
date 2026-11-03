@@ -93,6 +93,12 @@ const pl = {
     list: "lista",
     more: "pokaż więcej",
   },
+  map: {
+    credits: "autorzy mapy",
+    ctrlZoom: "Użyj Ctrl + przewijania, aby przybliżyć mapę",
+    cmdZoom: "Użyj ⌘ + przewijania, aby przybliżyć mapę",
+    twoFingers: "Przesuń mapę dwoma palcami",
+  },
   glance: {
     total: "aktywne oferty",
     lowest: "najniższy czynsz",
@@ -476,6 +482,12 @@ const en: Dictionary = {
     map: "map",
     list: "list",
     more: "show more",
+  },
+  map: {
+    credits: "map credits",
+    ctrlZoom: "Use Ctrl + scroll to zoom the map",
+    cmdZoom: "Use ⌘ + scroll to zoom the map",
+    twoFingers: "Use two fingers to move the map",
   },
   glance: {
     total: "active listings",
