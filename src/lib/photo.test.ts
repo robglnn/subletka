@@ -12,6 +12,13 @@ test("photo urls carry only the opaque key, variant and width", () => {
   );
 });
 
+test("card photos stop at 960w, twice the widest card slot", () => {
+  assert.equal(
+    photoSrcSet(key, "card"),
+    [320, 480, 640, 960].map((w) => `/img/card/${w}/AbCdEfGhIjKlMnOpQrStUv ${w}w`).join(", "),
+  );
+});
+
 test("photo keys reject anything but 22 url-safe characters", () => {
   assert.equal(isPhotoKey("AbCdEfGhIjKlMnOpQrStUv"), true);
   assert.equal(isPhotoKey("aHR0cHM6Ly9mbGF0aW9jZG4udnNoY2RuLm5ldA"), false);
