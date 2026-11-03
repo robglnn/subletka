@@ -3,6 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   poweredByHeader: false,
+  outputFileTracingIncludes: { "/share/[lang]/[file]": ["./src/app/fonts/archivo-pl-bold.ttf"] },
   rewrites: async () => [{ source: "/:key([0-9a-f]{32})\\.txt", destination: "/api/indexnow-key/:key" }],
   images: {
     unoptimized: true,

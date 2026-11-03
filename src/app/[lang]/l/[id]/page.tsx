@@ -26,6 +26,7 @@ import {
 import { displayMoney, roundMoney } from "@/lib/money";
 import { routes } from "@/lib/routes";
 import { pageMetadata } from "@/lib/seo";
+import { shareCard, shareImagePath } from "@/lib/share-image";
 
 const load = async (params: PageProps<"/[lang]/l/[id]">["params"]) => {
   const { lang, id } = await params;
@@ -42,7 +43,10 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/l/[id]">):
   const t = getDictionary(lang);
   const price = priceView(lang, listing);
   const description = `${t.listing.available} ${availability(lang, listing)} · ${price.main}${price.unit}`;
-  return pageMetadata(lang, `/l/${encodeURIComponent(listing.id)}`, `${listingTitle(lang, listing)} · ${t.cities[listing.city]}`, description);
+  const title = `${listingTitle(lang, listing)} · ${t.cities[listing.city]}`;
+  const card = shareCard(lang, listing);
+  const image = card ? { url: shareImagePath(lang, listing.id, card), alt: title, type: "image/jpeg" as const } : undefined;
+  return pageMetadata(lang, `/l/${encodeURIComponent(listing.id)}`, title, description, image);
 }
 
 type Amenity = { icon: LucideIcon; label: string };

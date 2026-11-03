@@ -7,7 +7,17 @@ import { fill } from "@/lib/i18n/fill";
 import { formatDate, formatMedian, plural } from "@/lib/i18n/format";
 import type { CityRent } from "@/lib/rent-stats";
 
-export const pageMetadata = (lang: Locale, path: string, title: string, description?: string): Metadata => {
+export type ShareImage = { url: string; alt: string; type: "image/png" | "image/jpeg" };
+
+const DEFAULT_IMAGE: ShareImage = { url: "/og.png", alt: "Subletka", type: "image/png" };
+
+export const pageMetadata = (
+  lang: Locale,
+  path: string,
+  title: string,
+  description?: string,
+  image: ShareImage = DEFAULT_IMAGE,
+): Metadata => {
   const site = siteUrl();
   const languages = Object.fromEntries(LOCALES.map((l) => [l, `${site}/${l}${path}`]));
   return {
@@ -21,9 +31,9 @@ export const pageMetadata = (lang: Locale, path: string, title: string, descript
       siteName: "Subletka",
       locale: LOCALE_TAG[lang].replace("-", "_"),
       type: "website",
-      images: [{ url: "/og.png", width: 1200, height: 630, alt: "Subletka" }],
+      images: [{ ...image, width: 1200, height: 630 }],
     },
-    twitter: { card: "summary_large_image", title, description, images: ["/og.png"] },
+    twitter: { card: "summary_large_image", title, description, images: [{ url: image.url, alt: image.alt }] },
   };
 };
 
