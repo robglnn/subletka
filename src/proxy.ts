@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { listingFate } from "@/db/listing-fate";
+import { canonicalCityPath } from "@/lib/city-alias";
 import { DEFAULT_LOCALE, isLocale, type Locale } from "@/lib/domain";
 import { LISTING_PATH, listingRedirect, requestedListingId } from "@/lib/listing-redirect";
 
@@ -25,6 +26,12 @@ export async function proxy(request: NextRequest) {
   if (!SERVED_HOSTS.has(host)) return NextResponse.redirect(`${CANONICAL_ORIGIN}${pathname}${search}`, 301);
   const first = pathname.split("/")[1] ?? "";
   if (isLocale(first)) {
+    const city = canonicalCityPath(pathname);
+    if (city) {
+      const url = request.nextUrl.clone();
+      url.pathname = city;
+      return NextResponse.redirect(url, 301);
+    }
     const segment = pathname.match(LISTING_PATH)?.[2];
     if (segment !== undefined) {
       const requested = requestedListingId(segment);
@@ -40,7 +47,8 @@ export async function proxy(request: NextRequest) {
   const saved = request.cookies.get(LANG_COOKIE)?.value;
   const locale = saved && isLocale(saved) ? saved : fromAcceptLanguage(request.headers.get("accept-language"));
   const url = request.nextUrl.clone();
-  url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
+  const localized = `/${locale}${pathname === "/" ? "" : pathname}`;
+  url.pathname = canonicalCityPath(localized) ?? localized;
   return NextResponse.redirect(url);
 }
 
